@@ -10,6 +10,15 @@
         body { font-family: 'Lexend', sans-serif; scroll-behavior: smooth; }
         .gradient-orange { background: linear-gradient(135deg, #ff8c00 0%, #ed8936 100%); }
         .nav-link:hover { color: #f97316; transition: 0.3s; }
+        .menu-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 30px rgba(15, 23, 42, 0.12);
+            border-color: rgba(249, 115, 22, 0.4);
+            background-color: #fff7ed;
+        }
         /* Fix lỗi hiển thị menu */
         #menu-chay { display: none; }
     </style>
@@ -90,11 +99,7 @@
                         <li>✅ Miễn phí giao hàng 11h30</li>
                         <li>✅ Đầy đủ mặn, canh, rau, tráng miệng</li>
                     </ul>
-                    <div class="flex justify-center">
-                        <a href="#booking-form" class="gradient-orange text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-orange-200 hover:scale-105 transition-transform">
-                            Đặt combo ngay
-                        </a>
-                    </div>
+                    <a href="#booking-form" class="inline-flex items-center justify-center px-8 py-3 rounded-xl font-bold text-white gradient-orange shadow-lg shadow-orange-200 hover:scale-105 transition-transform">Đặt combo ngay</a>
                 </div>
                 <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-200">
                     <h3 class="text-xl font-bold mb-4 uppercase">Suất Ngày Lẻ</h3>
@@ -122,27 +127,27 @@
 
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div id="menu-man" class="md:contents">
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T2</span>
                         <h4 class="font-bold text-lg mt-2 italic">Thịt kho trứng</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh bí, rau muống</p>
                     </div>
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T3</span>
                         <h4 class="font-bold text-lg mt-2 italic">Phở Bò Gốc</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Quẩy giòn, rau thơm</p>
                     </div>
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T4</span>
                         <h4 class="font-bold text-lg mt-2 italic">Gà kho sả ớt</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh cải, dưa leo</p>
                     </div>
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T5</span>
                         <h4 class="font-bold text-lg mt-2 italic">Bún Chả HN</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Nước mắm, nem rán</p>
                     </div>
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T6</span>
                         <h4 class="font-bold text-lg mt-2 italic">Bò xào tỏi</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh chua, trứng rán</p>
@@ -150,27 +155,27 @@
                 </div>
 
                 <div id="menu-chay" class="md:contents">
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T2</span>
                         <h4 class="font-bold text-lg mt-2 italic">Nấm kho tộ</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh kiểm, rau luộc</p>
                     </div>
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T3</span>
                         <h4 class="font-bold text-lg mt-2 italic">Phở Chay</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Nấm hương, đậu hũ</p>
                     </div>
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T4</span>
                         <h4 class="font-bold text-lg mt-2 italic">Bún Huế Chay</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Sả ớt, chả chay</p>
                     </div>
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T5</span>
                         <h4 class="font-bold text-lg mt-2 italic">Đậu hũ sốt cà</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh bí đỏ, su su</p>
                     </div>
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T6</span>
                         <h4 class="font-bold text-lg mt-2 italic">Miến trộn chay</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Mè rang, canh rong biển</p>
@@ -204,19 +209,66 @@
         <div class="max-w-6xl mx-auto">
             <h2 class="text-3xl font-bold mb-12 italic">Chuyện Của Bếp & Sức Khỏe</h2>
             <div class="grid md:grid-cols-3 gap-8 mb-20">
-                <div class="cursor-pointer group">
+                <button type="button" class="text-left cursor-pointer group" data-article="article-clean-food">
                     <div class="rounded-3xl overflow-hidden mb-4"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400" class="group-hover:scale-110 transition"></div>
                     <h3 class="font-bold text-lg group-hover:text-orange-500 transition">5 cách chọn thực phẩm sạch cho gia đình</h3>
-                </div>
-                <div class="cursor-pointer group">
+                    <p class="text-sm text-gray-500 mt-2">Bí quyết chọn nguyên liệu tươi lành và bảo quản đúng cách.</p>
+                    <span class="inline-block mt-4 text-sm font-semibold text-orange-600">Xem chi tiết →</span>
+                </button>
+                <button type="button" class="text-left cursor-pointer group" data-article="article-eat-clean">
                     <div class="rounded-3xl overflow-hidden mb-4"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400" class="group-hover:scale-110 transition"></div>
                     <h3 class="font-bold text-lg group-hover:text-orange-500 transition">Lợi ích bất ngờ của việc ăn Chay thanh lọc</h3>
-                </div>
-                <div class="cursor-pointer group">
+                    <p class="text-sm text-gray-500 mt-2">Thử một tuần ăn chay để cơ thể nhẹ nhàng hơn.</p>
+                    <span class="inline-block mt-4 text-sm font-semibold text-orange-600">Xem chi tiết →</span>
+                </button>
+                <button type="button" class="text-left cursor-pointer group" data-article="article-office-lunch">
                     <div class="rounded-3xl overflow-hidden mb-4"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=400" class="group-hover:scale-110 transition"></div>
                     <h3 class="font-bold text-lg group-hover:text-orange-500 transition">Ăn trưa văn phòng: Làm sao để không buồn ngủ?</h3>
-                </div>
+                    <p class="text-sm text-gray-500 mt-2">Ăn đúng giờ, đủ chất để tỉnh táo cả buổi chiều.</p>
+                    <span class="inline-block mt-4 text-sm font-semibold text-orange-600">Xem chi tiết →</span>
+                </button>
             </div>
+
+            <template id="article-clean-food">
+                <div class="space-y-4 text-gray-600">
+                    <p class="font-semibold text-slate-700">Chọn thực phẩm sạch không cần quá phức tạp, chỉ cần một chút để ý thói quen mua và bảo quản.</p>
+                    <ul class="space-y-3">
+                        <li><strong>1. Ưu tiên theo mùa:</strong> Rau củ theo mùa thường tươi, ít phải dùng chất bảo quản và có giá hợp lý.</li>
+                        <li><strong>2. Quan sát màu và mùi:</strong> Thịt cá tươi có màu sắc tự nhiên, mùi nhẹ, không chảy nhớt.</li>
+                        <li><strong>3. Chọn nơi bán có nguồn rõ ràng:</strong> Siêu thị, cửa hàng nông sản hoặc chợ quen có truy xuất nguồn gốc.</li>
+                        <li><strong>4. Mua lượng vừa đủ:</strong> Hạn chế tích trữ quá lâu, thực phẩm tươi sẽ giữ vị ngon.</li>
+                        <li><strong>5. Bảo quản đúng cách:</strong> Tách riêng sống – chín, dùng hộp kín và dán nhãn ngày mua.</li>
+                    </ul>
+                    <p>Chỉ cần 5 thói quen nhỏ, bữa cơm gia đình sẽ an tâm hơn, ngon miệng hơn.</p>
+                </div>
+            </template>
+
+            <template id="article-eat-clean">
+                <div class="space-y-4 text-gray-600">
+                    <p class="font-semibold text-slate-700">Ăn chay thanh lọc không phải là kiêng khem cực đoan, mà là cơ hội để cơ thể “thở”.</p>
+                    <ul class="space-y-3">
+                        <li><strong>Nhẹ bụng, dễ tiêu:</strong> Rau củ và ngũ cốc giúp hệ tiêu hoá làm việc êm ái hơn.</li>
+                        <li><strong>Giảm cảm giác uể oải:</strong> Bớt dầu mỡ giúp tinh thần tỉnh táo, làm việc tập trung.</li>
+                        <li><strong>Cải thiện vị giác:</strong> Ăn chay giúp bạn nhận ra vị ngọt tự nhiên của thực phẩm.</li>
+                        <li><strong>Da dẻ tươi sáng:</strong> Nhiều vitamin và chất xơ hỗ trợ làn da khoẻ.</li>
+                    </ul>
+                    <p>Hãy thử bắt đầu bằng 1-2 ngày chay mỗi tuần, bạn sẽ thấy sự khác biệt rõ rệt.</p>
+                </div>
+            </template>
+
+            <template id="article-office-lunch">
+                <div class="space-y-4 text-gray-600">
+                    <p class="font-semibold text-slate-700">Buồn ngủ sau giờ trưa là nỗi ám ảnh của dân văn phòng. Dưới đây là 5 mẹo đơn giản:</p>
+                    <ul class="space-y-3">
+                        <li><strong>Ăn vừa đủ no:</strong> Đừng để bụng quá đầy, cơ thể sẽ dồn năng lượng để tiêu hoá.</li>
+                        <li><strong>Tăng rau xanh:</strong> Rau giúp cân bằng đường huyết, hạn chế cảm giác “đơ” sau ăn.</li>
+                        <li><strong>Ưu tiên đạm nạc:</strong> Ức gà, cá, đậu hũ giúp bạn đủ năng lượng mà không nặng bụng.</li>
+                        <li><strong>Uống đủ nước:</strong> Thiếu nước dễ khiến bạn mệt mỏi và uể oải.</li>
+                        <li><strong>Đi bộ 5-10 phút:</strong> Một vòng nhẹ giúp máu lưu thông và tinh thần tỉnh táo hơn.</li>
+                    </ul>
+                    <p>Chỉ cần điều chỉnh nhỏ, buổi chiều sẽ nhẹ nhàng và hiệu quả hơn.</p>
+                </div>
+            </template>
 
             <div id="contact" class="grid md:grid-cols-2 gap-12 bg-slate-50 p-10 md:p-16 rounded-[3rem] items-center border border-orange-100 shadow-xl">
                 <div>
@@ -258,7 +310,48 @@
         © 2025 Lo Trưa - Chuẩn bị một lần, thảnh thơi cả tuần.
     </footer>
 
+    <div id="article-modal" class="fixed inset-0 z-50 hidden">
+        <div id="article-modal-overlay" class="absolute inset-0 bg-black/60"></div>
+        <div class="relative max-w-3xl mx-auto mt-24 bg-white rounded-[2rem] shadow-2xl p-8 md:p-10">
+            <div class="flex items-start justify-between gap-6">
+                <h3 id="article-modal-title" class="text-2xl md:text-3xl font-bold text-slate-800"></h3>
+                <button type="button" id="article-modal-close" class="text-slate-500 hover:text-orange-500 text-2xl leading-none">×</button>
+            </div>
+            <div id="article-modal-body" class="mt-6 text-base leading-relaxed"></div>
+        </div>
+    </div>
+
     <script>
+        const articleModal = document.getElementById('article-modal');
+        const articleModalTitle = document.getElementById('article-modal-title');
+        const articleModalBody = document.getElementById('article-modal-body');
+        const articleModalClose = document.getElementById('article-modal-close');
+        const articleModalOverlay = document.getElementById('article-modal-overlay');
+
+        document.querySelectorAll('[data-article]').forEach((card) => {
+            card.addEventListener('click', () => {
+                const template = document.getElementById(card.dataset.article);
+                if (!template) {
+                    return;
+                }
+                articleModalTitle.textContent = card.querySelector('h3').textContent;
+                articleModalBody.innerHTML = template.innerHTML;
+                articleModal.classList.remove('hidden');
+            });
+        });
+
+        function closeArticleModal() {
+            articleModal.classList.add('hidden');
+        }
+
+        articleModalClose.addEventListener('click', closeArticleModal);
+        articleModalOverlay.addEventListener('click', closeArticleModal);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !articleModal.classList.contains('hidden')) {
+                closeArticleModal();
+            }
+        });
+
         function toggleMenu(type) {
             const menuMan = document.getElementById('menu-man');
             const menuChay = document.getElementById('menu-chay');
