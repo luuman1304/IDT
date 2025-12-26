@@ -10,6 +10,15 @@
         body { font-family: 'Lexend', sans-serif; scroll-behavior: smooth; }
         .gradient-orange { background: linear-gradient(135deg, #ff8c00 0%, #ed8936 100%); }
         .nav-link:hover { color: #f97316; transition: 0.3s; }
+        .menu-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 30px rgba(15, 23, 42, 0.12);
+            border-color: rgba(249, 115, 22, 0.4);
+            background-color: #fff7ed;
+        }
         /* Fix lỗi hiển thị menu */
         #menu-chay { display: none; }
     </style>
@@ -117,27 +126,27 @@
 
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div id="menu-man" class="md:contents">
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T2</span>
                         <h4 class="font-bold text-lg mt-2 italic">Thịt kho trứng</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh bí, rau muống</p>
                     </div>
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T3</span>
                         <h4 class="font-bold text-lg mt-2 italic">Phở Bò Gốc</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Quẩy giòn, rau thơm</p>
                     </div>
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T4</span>
                         <h4 class="font-bold text-lg mt-2 italic">Gà kho sả ớt</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh cải, dưa leo</p>
                     </div>
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T5</span>
                         <h4 class="font-bold text-lg mt-2 italic">Bún Chả HN</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Nước mắm, nem rán</p>
                     </div>
-                    <div class="p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
                         <span class="text-xs font-bold text-orange-400">T6</span>
                         <h4 class="font-bold text-lg mt-2 italic">Bò xào tỏi</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh chua, trứng rán</p>
@@ -145,27 +154,27 @@
                 </div>
 
                 <div id="menu-chay" class="md:contents">
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T2</span>
                         <h4 class="font-bold text-lg mt-2 italic">Nấm kho tộ</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh kiểm, rau luộc</p>
                     </div>
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T3</span>
                         <h4 class="font-bold text-lg mt-2 italic">Phở Chay</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Nấm hương, đậu hũ</p>
                     </div>
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T4</span>
                         <h4 class="font-bold text-lg mt-2 italic">Bún Huế Chay</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Sả ớt, chả chay</p>
                     </div>
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T5</span>
                         <h4 class="font-bold text-lg mt-2 italic">Đậu hũ sốt cà</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh bí đỏ, su su</p>
                     </div>
-                    <div class="p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
+                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
                         <span class="text-xs font-bold text-green-500">T6</span>
                         <h4 class="font-bold text-lg mt-2 italic">Miến trộn chay</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Mè rang, canh rong biển</p>
