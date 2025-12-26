@@ -3,192 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lo Trưa - Giải pháp bữa trưa văn phòng</title>
+    <title>Lo Trưa - Đặt Một Lần, Thảnh Thơi Cả Tuần</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Lexend', sans-serif; scroll-behavior: smooth; }
         .gradient-orange { background: linear-gradient(135deg, #ff8c00 0%, #ed8936 100%); }
+        .hidden-menu { display: none; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <header class="relative h-screen flex items-center justify-center text-center text-white bg-slate-900 px-4">
-        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80" class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Hero">
-        <div class="relative z-10 max-w-4xl">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-                Trưa nay ăn gì, <br><span class="text-orange-400">không còn là việc của bạn.</span>
-            </h1>
-            <p class="text-lg md:text-xl mb-10 text-gray-200 font-light">
-                Lo Trưa chuẩn bị sẵn suất ăn cho 5 ngày đi làm. <br>
-                Không cần nghĩ, không cần đặt từng bữa, không lo quên.
-            </p>
-            <a href="#menu-section" class="gradient-orange px-8 py-4 rounded-full text-lg font-bold shadow-lg inline-block hover:scale-105 transition">
-                👉 Xem suất ăn 5 ngày →
-            </a>
+    <header class="relative h-[70vh] flex items-center bg-slate-900 text-white overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=1600&q=80" class="absolute inset-0 w-full h-full object-cover opacity-40">
+        <div class="relative z-10 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+                    Trưa nay ăn gì, <br><span class="text-orange-400">không còn là việc của bạn.</span>
+                </h1>
+                <p class="text-lg mb-8 text-gray-200">Lo Trưa chuẩn bị sẵn suất ăn cho 5 ngày đi làm. Tiết kiệm thời gian, bảo vệ sức khỏe.</p>
+                <a href="#order" class="gradient-orange px-8 py-4 rounded-xl text-lg font-bold shadow-lg inline-block hover:scale-105 transition">👉 Xem suất ăn 5 ngày →</a>
+            </div>
         </div>
     </header>
 
-    <section class="py-20 px-6 bg-white">
+    <section class="py-16 px-6 bg-white">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-4">
+                <h2 class="text-2xl font-bold border-l-4 border-orange-500 pl-4">Bữa trưa của bạn đang như thế nào?</h2>
+                <ul class="space-y-3 text-gray-600">
+                    <li class="flex gap-2">❌ 11h30 mới bắt đầu nghĩ trưa nay ăn gì</li>
+                    <li class="flex gap-2">❌ Đặt ngoài nhiều dầu mỡ, ăn một mình giá cao</li>
+                    <li class="flex gap-2">❌ Bận việc là quên đặt cơm, ăn đại cho xong</li>
+                </ul>
+                <div class="p-6 bg-orange-50 rounded-2xl mt-6">
+                    <p class="font-bold text-orange-900 uppercase text-sm mb-2">Giải pháp từ Lo Trưa</p>
+                    <p class="text-gray-700 italic">"Chuẩn bị sẵn cho cả tuần. Bạn không cần chọn món, không cần canh giờ, không sợ quên."</p>
+                </div>
+            </div>
+            
+            <div id="order" class="grid grid-cols-1 gap-4">
+                <div class="bg-white border-2 border-orange-500 p-6 rounded-3xl shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-8 top-6 bg-red-500 text-white px-10 py-1 rotate-45 text-xs font-bold shadow-md">TIẾT KIỆM 30%</div>
+                    <h3 class="font-bold text-xl uppercase tracking-tighter">Gói Combo 5 Ngày</h3>
+                    <div class="flex items-end gap-3 my-4">
+                        <span class="text-4xl font-black text-orange-600">140k</span>
+                        <span class="text-xl text-gray-400 line-through pb-1">200k</span>
+                    </div>
+                    <p class="text-sm text-gray-500 italic mb-4">* Chỉ 28k/bữa - Rẻ hơn tự đặt lẻ mỗi ngày</p>
+                    <a href="#booking-form" class="block text-center border-2 border-orange-500 text-orange-600 font-bold py-2 rounded-xl hover:bg-orange-500 hover:text-white transition">Đăng ký gói tuần</a>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl flex justify-between items-center border border-gray-100">
+                    <div>
+                        <p class="font-bold text-slate-700">Gói lẻ theo ngày</p>
+                        <p class="text-xs text-gray-500 text-nowrap">Dành cho nhu cầu linh hoạt</p>
+                    </div>
+                    <p class="text-xl font-black text-slate-800 tracking-tighter">40k<span class="text-xs font-normal">/suất</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 bg-slate-50">
         <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold mb-8">Bữa trưa đi làm thường trôi qua như thế nào?</h2>
-                <div class="grid md:grid-cols-2 gap-6 text-left mb-12">
-                    <div class="p-6 bg-slate-50 rounded-2xl">❌ 11h30 mới bắt đầu nghĩ trưa nay ăn gì</div>
-                    <div class="p-6 bg-slate-50 rounded-2xl">❌ Đặt bên ngoài thì nhanh, nhưng nhiều dầu mỡ</div>
-                    <div class="p-6 bg-slate-50 rounded-2xl">❌ Ăn một mình thì giá cao</div>
-                    <div class="p-6 bg-slate-50 rounded-2xl">❌ Nhiều hôm bận việc, đến trưa mới nhớ chưa đặt cơm</div>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold mb-4">Thực Đơn Tuần Này</h2>
+                <p class="text-gray-500 text-sm mb-6 uppercase tracking-widest">29/12/2025 - 05/01/2026</p>
+                
+                <div class="inline-flex p-1 bg-gray-200 rounded-xl">
+                    <button id="btn-man" onclick="toggleMenu('man')" class="px-6 py-2 rounded-lg font-bold transition bg-white shadow-sm text-orange-600">Món Mặn</button>
+                    <button id="btn-chay" onclick="toggleMenu('chay')" class="px-6 py-2 rounded-lg font-bold transition text-gray-500 hover:text-orange-600">Món Chay</button>
                 </div>
-                <p class="text-xl italic text-gray-600 mb-4">"Bữa trưa không khó. Chỉ là lặp lại mỗi ngày nên rất mệt để nghĩ."</p>
-                <div class="h-1 w-20 bg-orange-500 mx-auto rounded-full"></div>
             </div>
 
-            <div class="bg-orange-50 p-8 md:p-12 rounded-[2rem] border-2 border-orange-100">
-                <h2 class="text-3xl font-bold mb-6 text-orange-900">Lo Trưa ra đời để bạn bớt phải nghĩ một việc mỗi ngày</h2>
-                <p class="text-lg mb-6 leading-relaxed text-gray-700">Lo Trưa chuẩn bị sẵn suất ăn cho cả tuần làm việc. Bạn không cần:</p>
-                <div class="space-y-4 mb-8">
-                    <div class="flex items-center gap-3 font-semibold text-lg">✨ Chọn món mỗi ngày</div>
-                    <div class="flex items-center gap-3 font-semibold text-lg">✨ Canh giờ đặt</div>
-                    <div class="flex items-center gap-3 font-semibold text-lg">✨ Hay lo quên khi đang bận</div>
+            <div id="menu-man" class="grid md:grid-cols-5 gap-3">
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-orange-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 2</p>
+                    <p class="font-bold text-sm mt-1">Thịt kho trứng</p>
                 </div>
-                <p class="text-2xl font-bold text-orange-600 italic">Đến trưa, bữa ăn đã sẵn sàng.</p>
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-orange-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 3</p>
+                    <p class="font-bold text-sm mt-1">Cá lóc kho tộ</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-orange-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 4</p>
+                    <p class="font-bold text-sm mt-1">Gà kho sả ớt</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-orange-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 5</p>
+                    <p class="font-bold text-sm mt-1">Sườn non rim</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-orange-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 6</p>
+                    <p class="font-bold text-sm mt-1">Bò xào cần tỏi</p>
+                </div>
+            </div>
+
+            <div id="menu-chay" class="grid md:grid-cols-5 gap-3 hidden-menu">
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-green-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 2</p>
+                    <p class="font-bold text-sm mt-1">Nấm kho tộ</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-green-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 3</p>
+                    <p class="font-bold text-sm mt-1">Đậu hũ sốt cà</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-green-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 4</p>
+                    <p class="font-bold text-sm mt-1">Canh kiểm Nam Bộ</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-green-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 5</p>
+                    <p class="font-bold text-sm mt-1">Sườn non chay rim</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm text-center border-b-4 border-green-400">
+                    <p class="text-xs font-bold text-gray-400">THỨ 6</p>
+                    <p class="font-bold text-sm mt-1">Bún xào rau củ</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="menu-section" class="py-20 px-6 bg-slate-50">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold mb-6">Suất ăn 5 ngày – chuẩn bị một lần cho cả tuần</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Chuẩn bị trước cho 5 ngày đi làm. Khẩu phần vừa đủ cho nhịp làm việc văn phòng. Phù hợp với người không muốn ăn vội hoặc ăn đại.</p>
-            </div>
-
-            <div class="grid lg:grid-cols-3 gap-8 mb-16">
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="bg-white p-8 rounded-3xl shadow-xl border-4 border-orange-500 transform scale-105">
-                        <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">TIẾT KIỆM</span>
-                        <h3 class="text-xl font-bold mt-2">Combo 5 Ngày</h3>
-                        <p class="text-4xl font-black text-orange-600 my-4">140.000đ</p>
-                        <p class="text-sm text-gray-500">Lo Trưa không cố làm bữa ăn cầu kỳ. Chỉ tập trung để bữa trưa ổn định và dễ chịu.</p>
+    <section id="booking-form" class="py-16 px-6 bg-white">
+        <div class="max-w-5xl mx-auto bg-slate-900 text-white p-8 md:p-12 rounded-[3rem] shadow-2xl grid md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">Đăng ký nhận cơm</h2>
+                <p class="text-gray-400 mb-8 text-sm">Sau khi gửi, chúng mình sẽ gọi xác nhận qua số điện thoại để chốt thực đơn chi tiết.</p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 border-b border-gray-700 pb-4">
+                        <span class="bg-orange-500 w-8 h-8 flex items-center justify-center rounded-full font-bold">1</span>
+                        <p>Nhập thông tin cá nhân & thời gian</p>
                     </div>
-                    <div class="bg-white p-8 rounded-3xl shadow-md border border-gray-200">
-                        <h3 class="text-xl font-bold">Gói lẻ theo ngày</h3>
-                        <p class="text-3xl font-black text-slate-700 my-4">40.000đ/ngày</p>
+                    <div class="flex items-center gap-4 border-b border-gray-700 pb-4">
+                        <span class="bg-orange-500 w-8 h-8 flex items-center justify-center rounded-full font-bold">2</span>
+                        <p>Chọn chế độ ăn cho từng ngày</p>
                     </div>
-                </div>
-
-                <div class="lg:col-span-2 bg-white p-8 rounded-3xl shadow-md border border-gray-100">
-                    <div class="flex justify-between items-end mb-6">
-                        <h3 class="text-2xl font-bold">Thực Đơn Tuần Này</h3>
-                        <span class="text-orange-600 font-medium">29/12/2025 - 05/01/2026</span>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="flex gap-4 p-3 hover:bg-orange-50 rounded-xl transition">
-                            <span class="font-bold text-orange-500">T2</span>
-                            <div><p class="font-bold">Thịt kho trứng mặn mà</p><p class="text-xs text-gray-500">Canh cải, dưa chua</p></div>
-                        </div>
-                        <div class="flex gap-4 p-3 hover:bg-orange-50 rounded-xl transition">
-                            <span class="font-bold text-orange-500">T3</span>
-                            <div><p class="font-bold">Cá lóc kho tộ</p><p class="text-xs text-gray-500">Rau muống luộc, canh bầu</p></div>
-                        </div>
-                        <div class="flex gap-4 p-3 hover:bg-orange-50 rounded-xl transition">
-                            <span class="font-bold text-orange-500">T4</span>
-                            <div><p class="font-bold">Gà kho sả ớt</p><p class="text-xs text-gray-500">Canh bí đỏ, salad</p></div>
-                        </div>
-                        <div class="flex gap-4 p-3 hover:bg-orange-50 rounded-xl transition">
-                            <span class="font-bold text-orange-500">T5</span>
-                            <div><p class="font-bold">Sườn non rim</p><p class="text-xs text-gray-500">Canh chua cá, rau xào</p></div>
-                        </div>
-                        <div class="flex gap-4 p-3 hover:bg-orange-50 rounded-xl transition">
-                            <span class="font-bold text-orange-500">T6</span>
-                            <div><p class="font-bold">Bò xào cần tỏi</p><p class="text-xs text-gray-500">Canh rong biển, đậu hũ</p></div>
-                        </div>
+                    <div class="flex items-center gap-4 border-b border-gray-700 pb-4">
+                        <span class="bg-orange-500 w-8 h-8 flex items-center justify-center rounded-full font-bold">3</span>
+                        <p>Nhận cơm đúng 11h30 mỗi ngày</p>
                     </div>
                 </div>
             </div>
 
-            <div id="booking-form" class="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl border border-gray-100">
-                <h3 class="text-2xl font-bold mb-8 text-center">Đăng ký suất ăn của bạn</h3>
-                <form class="space-y-6">
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-bold mb-2">Tên của bạn</label>
-                            <input type="text" placeholder="Nhập họ tên" class="w-full px-4 py-3 rounded-xl bg-slate-50 border-none focus:ring-2 focus:ring-orange-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold mb-2">Số điện thoại</label>
-                            <input type="tel" placeholder="090..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border-none focus:ring-2 focus:ring-orange-500 outline-none">
-                        </div>
+            <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-4 text-slate-800">
+                <input type="text" name="name" placeholder="Họ và Tên" required class="w-full px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-orange-500">
+                <input type="tel" name="phone" placeholder="Số điện thoại" required class="w-full px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-orange-500">
+                <input type="email" name="email" placeholder="Email nhận thông báo" required class="w-full px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-orange-500">
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-xs text-gray-400 ml-2 uppercase">Từ ngày</label>
+                        <input type="date" name="start_date" class="w-full px-4 py-2 rounded-xl text-sm">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold mb-2">Email (nhận thực đơn)</label>
-                        <input type="email" placeholder="example@gmail.com" class="w-full px-4 py-3 rounded-xl bg-slate-50 border-none focus:ring-2 focus:ring-orange-500 outline-none">
+                        <label class="text-xs text-gray-400 ml-2 uppercase">Đến ngày</label>
+                        <input type="date" name="end_date" class="w-full px-4 py-2 rounded-xl text-sm">
                     </div>
+                </div>
 
-                    <div class="grid md:grid-cols-2 gap-6 p-6 bg-orange-50 rounded-2xl">
-                        <div>
-                            <label class="block text-sm font-bold mb-2">Từ ngày</label>
-                            <input type="date" value="2025-12-29" class="w-full px-4 py-2 rounded-lg border-gray-200">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold mb-2">Đến ngày</label>
-                            <input type="date" value="2026-01-02" class="w-full px-4 py-2 rounded-lg border-gray-200">
-                        </div>
+                <div class="bg-slate-800 p-4 rounded-2xl mt-4">
+                    <p class="text-white text-xs font-bold mb-3 uppercase tracking-wider">Chọn thực đơn chay (Mặc định là Mặn)</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="flex items-center gap-2 bg-slate-700 p-2 rounded-lg text-white text-xs cursor-pointer">
+                            <input type="checkbox" name="chay_t2" class="accent-orange-500"> T2 Chay
+                        </label>
+                        <label class="flex items-center gap-2 bg-slate-700 p-2 rounded-lg text-white text-xs cursor-pointer">
+                            <input type="checkbox" name="chay_t3" class="accent-orange-500"> T3 Chay
+                        </label>
+                        <label class="flex items-center gap-2 bg-slate-700 p-2 rounded-lg text-white text-xs cursor-pointer">
+                            <input type="checkbox" name="chay_t4" class="accent-orange-500"> T4 Chay
+                        </label>
+                        <label class="flex items-center gap-2 bg-slate-700 p-2 rounded-lg text-white text-xs cursor-pointer">
+                            <input type="checkbox" name="chay_t5" class="accent-orange-500"> T5 Chay
+                        </label>
+                        <label class="flex items-center gap-2 bg-slate-700 p-2 rounded-lg text-white text-xs cursor-pointer">
+                            <input type="checkbox" name="chay_t6" class="accent-orange-500"> T6 Chay
+                        </label>
                     </div>
+                </div>
 
-                    <div>
-                        <label class="block text-sm font-bold mb-4 italic text-gray-600">Chọn chế độ ăn cho từng ngày:</label>
-                        <div class="grid grid-cols-1 gap-3">
-                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                                <span class="font-bold w-20 text-orange-600">Thứ Hai</span>
-                                <div class="flex gap-4">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t2" checked class="accent-orange-500"> Mặn</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t2" class="accent-orange-500"> Chay</label>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                                <span class="font-bold w-20 text-orange-600">Thứ Ba</span>
-                                <div class="flex gap-4">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t3" checked class="accent-orange-500"> Mặn</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t3" class="accent-orange-500"> Chay</label>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                                <span class="font-bold w-20 text-orange-600">Thứ Tư</span>
-                                <div class="flex gap-4">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t4" checked class="accent-orange-500"> Mặn</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t4" class="accent-orange-500"> Chay</label>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                                <span class="font-bold w-20 text-orange-600">Thứ Năm</span>
-                                <div class="flex gap-4">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t5" checked class="accent-orange-500"> Mặn</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t5" class="accent-orange-500"> Chay</label>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                                <span class="font-bold w-20 text-orange-600">Thứ Sáu</span>
-                                <div class="flex gap-4">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t6" checked class="accent-orange-500"> Mặn</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="t6" class="accent-orange-500"> Chay</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="button" class="w-full gradient-orange text-white py-5 rounded-2xl font-bold text-xl shadow-xl hover:opacity-90 transition">
-                        GỬI ĐĂNG KÝ NGAY
-                    </button>
-                    <p class="text-center text-sm text-gray-400 italic">👉 Chúng mình sẽ gọi xác nhận trong vòng 15 phút!</p>
-                </form>
-            </div>
+                <button type="submit" class="w-full gradient-orange text-white py-4 rounded-xl font-bold text-lg shadow-xl hover:opacity-90 transition">
+                    XÁC NHẬN ĐẶT CƠM
+                </button>
+            </form>
         </div>
     </section>
 
-    <footer class="py-10 text-center text-gray-400 text-sm border-t">
-        © 2025 Lo Trưa - Chuẩn bị một lần, thảnh thơi cả tuần.
-    </footer>
+    <script>
+        function toggleMenu(type) {
+            const menuMan = document.getElementById('menu-man');
+            const menuChay = document.getElementById('menu-chay');
+            const btnMan = document.getElementById('btn-man');
+            const btnChay = document.getElementById('btn-chay');
 
+            if (type === 'man') {
+                menuMan.classList.remove('hidden-menu');
+                menuChay.classList.add('hidden-menu');
+                btnMan.classList.add('bg-white', 'shadow-sm', 'text-orange-600');
+                btnMan.classList.remove('text-gray-500');
+                btnChay.classList.remove('bg-white', 'shadow-sm', 'text-orange-600');
+                btnChay.classList.add('text-gray-500');
+            } else {
+                menuMan.classList.add('hidden-menu');
+                menuChay.classList.remove('hidden-menu');
+                btnChay.classList.add('bg-white', 'shadow-sm', 'text-orange-600');
+                btnChay.classList.remove('text-gray-500');
+                btnMan.classList.remove('bg-white', 'shadow-sm', 'text-orange-600');
+                btnMan.classList.add('text-gray-500');
+            }
+        }
+    </script>
 </body>
 </html>
