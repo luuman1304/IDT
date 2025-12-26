@@ -303,25 +303,20 @@
                 </div>
 
                 <div id="booking-form" class="bg-white p-8 rounded-[2rem] shadow-lg">
-                    <h3 class="text-xl font-bold mb-6 text-center">ĐĂNG KÝ XÁC NHẬN</h3>
+                    <h3 class="text-xl font-bold mb-6 text-center">ĐẶT CƠM TRƯA</h3>
                     <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-4">
                         <input type="text" name="name" placeholder="Họ và Tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                         <input type="tel" name="phone" placeholder="Số điện thoại" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                         <div class="grid grid-cols-2 gap-4">
-                            <input type="date" name="from" class="w-full p-4 rounded-xl bg-slate-50 text-xs">
-                            <input type="date" name="to" class="w-full p-4 rounded-xl bg-slate-50 text-xs">
+                            <input type="date" id="date-from" name="from" class="w-full p-4 rounded-xl bg-slate-50 text-xs">
+                            <input type="date" id="date-to" name="to" class="w-full p-4 rounded-xl bg-slate-50 text-xs">
                         </div>
                         <div class="p-4 bg-orange-50 rounded-xl">
                             <p class="text-[10px] font-bold text-gray-400 mb-2 uppercase">Ngày bạn muốn ăn CHAY</p>
-                            <div class="flex flex-wrap gap-2">
-                                <label class="text-[10px] flex items-center gap-1"><input type="checkbox" name="c2" class="accent-orange-500"> T2</label>
-                                <label class="text-[10px] flex items-center gap-1"><input type="checkbox" name="c3" class="accent-orange-500"> T3</label>
-                                <label class="text-[10px] flex items-center gap-1"><input type="checkbox" name="c4" class="accent-orange-500"> T4</label>
-                                <label class="text-[10px] flex items-center gap-1"><input type="checkbox" name="c5" class="accent-orange-500"> T5</label>
-                                <label class="text-[10px] flex items-center gap-1"><input type="checkbox" name="c6" class="accent-orange-500"> T6</label>
-                            </div>
+                            <p id="vegetarian-hint" class="text-[10px] text-gray-400 mb-3">Chọn từ ngày đến ngày (tối đa 14 ngày) để hiện danh sách.</p>
+                            <div id="vegetarian-days" class="flex flex-wrap gap-2"></div>
                         </div>
-                        <button class="w-full gradient-orange text-white py-4 rounded-xl font-bold">XÁC NHẬN ĐẶT CƠM</button>
+                        <button class="w-full gradient-orange text-white py-4 rounded-xl font-bold">XÁC NHẬT ĐẶT</button>
                     </form>
                 </div>
             </div>
@@ -514,6 +509,114 @@
                 tabMan.classList.add('text-gray-500');
             }
         }
+
+        const dateFrom = document.getElementById('date-from');
+        const dateTo = document.getElementById('date-to');
+        const vegetarianDays = document.getElementById('vegetarian-days');
+        const vegetarianHint = document.getElementById('vegetarian-hint');
+        const maxRangeDays = 14;
+        const dayLabels = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+
+        function parseDate(value) {
+            if (!value) {
+                return null;
+            }
+            const date = new Date(`${value}T00:00:00`);
+            return Number.isNaN(date.getTime()) ? null : date;
+        }
+
+        function addDays(date, days) {
+            const next = new Date(date);
+            next.setDate(next.getDate() + days);
+            return next;
+        }
+
+        function formatDateLabel(date) {
+            const dayLabel = dayLabels[date.getDay()];
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            return `${dayLabel} ${day}/${month}`;
+        }
+
+        function updateDateConstraints() {
+            if (!dateFrom.value) {
+                dateTo.removeAttribute('min');
+                dateTo.removeAttribute('max');
+                return;
+            }
+
+            const fromDate = parseDate(dateFrom.value);
+            if (!fromDate) {
+                return;
+            }
+
+            const maxDate = addDays(fromDate, maxRangeDays - 1);
+            dateTo.min = dateFrom.value;
+            dateTo.max = maxDate.toISOString().split('T')[0];
+
+            if (dateTo.value) {
+                const toDate = parseDate(dateTo.value);
+                if (toDate && toDate > maxDate) {
+                    dateTo.value = dateTo.max;
+                }
+            }
+        }
+
+        function updateVegetarianDays() {
+            vegetarianDays.innerHTML = '';
+
+            if (!dateFrom.value || !dateTo.value) {
+                vegetarianHint.textContent = 'Chọn từ ngày đến ngày (tối đa 14 ngày) để hiện danh sách.';
+                return;
+            }
+
+            const fromDate = parseDate(dateFrom.value);
+            const toDate = parseDate(dateTo.value);
+
+            if (!fromDate || !toDate || toDate < fromDate) {
+                vegetarianHint.textContent = 'Vui lòng chọn khoảng ngày hợp lệ.';
+                return;
+            }
+
+            const diffDays = Math.floor((toDate - fromDate) / (1000 * 60 * 60 * 24)) + 1;
+            if (diffDays > maxRangeDays) {
+                vegetarianHint.textContent = 'Khoảng ngày tối đa 14 ngày. Vui lòng chọn lại.';
+                return;
+            }
+
+            vegetarianHint.textContent = `Đã chọn ${diffDays} ngày. Tick ngày muốn ăn chay.`;
+
+            for (let i = 0; i < diffDays; i += 1) {
+                const currentDate = addDays(fromDate, i);
+                const label = formatDateLabel(currentDate);
+                const value = currentDate.toISOString().split('T')[0];
+                const wrapper = document.createElement('label');
+                wrapper.className = 'text-[10px] flex items-center gap-1 bg-white/70 px-2 py-1 rounded-lg border border-orange-100';
+
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.name = 'vegetarian_days[]';
+                input.value = value;
+                input.className = 'accent-orange-500';
+
+                wrapper.appendChild(input);
+                wrapper.appendChild(document.createTextNode(` ${label}`));
+                vegetarianDays.appendChild(wrapper);
+            }
+        }
+
+        dateFrom.addEventListener('change', () => {
+            updateDateConstraints();
+            updateVegetarianDays();
+        });
+
+        dateTo.addEventListener('change', () => {
+            updateDateConstraints();
+            updateVegetarianDays();
+        });
+
+        updateDateConstraints();
+        updateVegetarianDays();
     </script>
 </body>
 </html>
