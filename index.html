@@ -187,19 +187,41 @@
 
     <section class="py-20 bg-slate-50 px-6">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold mb-12 text-center uppercase italic">Cảm nhận từ khách hàng</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border-l-4 border-orange-400">
-                    <p class="italic mb-6 text-gray-600">"Mình là người rất lười nghĩ trưa nay ăn gì, nhờ Lo Trưa mà tiết kiệm được bao nhiêu nơ-ron thần kinh. Cơm ngon và rất sạch sẽ."</p>
-                    <div class="font-bold">Chị Hà (Marketing Manager)</div>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="flex items-center gap-4 text-orange-500 font-semibold uppercase tracking-[0.2em] text-xs mb-4">
+                        <span>Cảm nhận</span>
+                        <span class="h-[2px] w-12 bg-orange-400"></span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-6">Cảm nhận từ khách hàng</h2>
+                    <div class="text-6xl text-orange-200 font-black leading-none mb-4">“</div>
+                    <p id="testimonial-quote" class="text-slate-600 text-lg leading-relaxed italic mb-8"></p>
+                    <div class="flex items-center justify-between gap-4 flex-wrap">
+                        <div class="flex items-center gap-4">
+                            <img id="testimonial-avatar" src="" alt="Avatar khách hàng" class="w-14 h-14 rounded-full object-cover border-4 border-orange-200">
+                            <div>
+                                <div id="testimonial-name" class="font-bold text-slate-800"></div>
+                                <div id="testimonial-role" class="text-sm text-slate-500"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button id="testimonial-prev" class="w-11 h-11 rounded-full border border-orange-200 text-orange-500 hover:bg-orange-500 hover:text-white transition">←</button>
+                            <button id="testimonial-next" class="w-11 h-11 rounded-full border border-orange-200 text-orange-500 hover:bg-orange-500 hover:text-white transition">→</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border-l-4 border-orange-400">
-                    <p class="italic mb-6 text-gray-600">"Gói 5 ngày tính ra quá rẻ cho một bữa trưa đầy đủ. Thích nhất là được đổi sang menu chay vào thứ 2."</p>
-                    <div class="font-bold">Anh Quân (IT Helpdesk)</div>
-                </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border-l-4 border-orange-400">
-                    <p class="italic mb-6 text-gray-600">"Bữa trưa không bị ngắt mạch công việc, đúng 11h30 cơm đã ở trên bàn. Thực sự giúp mình làm việc hiệu quả hơn."</p>
-                    <div class="font-bold">Bạn Vy (Kế toán văn phòng)</div>
+                <div class="relative">
+                    <div class="rounded-[2.5rem] overflow-hidden shadow-xl border border-orange-100">
+                        <img id="testimonial-image" src="" alt="Món ăn Lo Trưa" class="w-full h-[320px] md:h-[380px] object-cover">
+                    </div>
+                    <div class="absolute -bottom-10 left-8 right-8 bg-white rounded-3xl p-6 shadow-2xl border border-orange-100">
+                        <div class="flex items-center justify-between text-sm font-semibold text-slate-500">
+                            <span id="testimonial-card-title" class="text-slate-800 font-bold"></span>
+                            <span id="testimonial-card-price" class="text-orange-500 font-bold"></span>
+                        </div>
+                        <div id="testimonial-stars" class="text-orange-400 mt-2 text-lg"></div>
+                        <p id="testimonial-card-note" class="text-sm text-slate-500 mt-3 leading-relaxed"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -351,6 +373,120 @@
                 closeArticleModal();
             }
         });
+
+        const testimonials = [
+            {
+                quote: '“Mình là người rất lười nghĩ trưa nay ăn gì, nhờ Lo Trưa mà tiết kiệm được bao nhiêu nơ-ron thần kinh. Cơm ngon và rất sạch sẽ.”',
+                name: 'Chị Hà',
+                role: 'Marketing Manager',
+                avatar: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=200&auto=format&fit=crop&q=80',
+                image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&auto=format&fit=crop&q=80',
+                cardTitle: 'Combo 5 ngày tiện lợi',
+                price: '180K',
+                rating: 5,
+                note: 'Bữa trưa được chuẩn bị đầy đủ, sạch sẽ và giao đúng giờ.'
+            },
+            {
+                quote: '“Gói 5 ngày tính ra quá rẻ cho một bữa trưa đầy đủ. Thích nhất là được đổi sang menu chay vào thứ 2.”',
+                name: 'Anh Quân',
+                role: 'IT Helpdesk',
+                avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80',
+                image: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=1200&auto=format&fit=crop&q=80',
+                cardTitle: 'Menu linh hoạt',
+                price: 'Tiết kiệm 10%',
+                rating: 5,
+                note: 'Mỗi tuần đều có cảm giác mới vì được đổi món.'
+            },
+            {
+                quote: '“Bữa trưa không bị ngắt mạch công việc, đúng 11h30 cơm đã ở trên bàn. Thực sự giúp mình làm việc hiệu quả hơn.”',
+                name: 'Bạn Vy',
+                role: 'Kế toán văn phòng',
+                avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&auto=format&fit=crop&q=80',
+                image: 'https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?w=1200&auto=format&fit=crop&q=80',
+                cardTitle: 'Giao đúng giờ',
+                price: '11h30',
+                rating: 5,
+                note: 'Đúng giờ nên không bị chậm nhịp làm việc.'
+            },
+            {
+                quote: '“Chỉ cần đặt một lần cho cả tuần, mình không phải suy nghĩ thêm. Đồ ăn vừa miệng và rất vừa khẩu phần.”',
+                name: 'Chị Mai',
+                role: 'HR Specialist',
+                avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&q=80',
+                image: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=1200&auto=format&fit=crop&q=80',
+                cardTitle: 'Khẩu phần chuẩn',
+                price: 'Đủ chất',
+                rating: 5,
+                note: 'Ăn xong no vừa đủ, không bị quá nặng bụng.'
+            },
+            {
+                quote: '“Đồ ăn lên món đẹp, dễ ăn và ít dầu. Mình thích sự nhất quán về chất lượng mỗi ngày.”',
+                name: 'Anh Bình',
+                role: 'Account Executive',
+                avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&auto=format&fit=crop&q=80',
+                image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&auto=format&fit=crop&q=80',
+                cardTitle: 'Chất lượng ổn định',
+                price: '5 ngày',
+                rating: 5,
+                note: 'Bữa trưa giữ được sự ổn định và ngon miệng.'
+            }
+        ];
+
+        const testimonialQuote = document.getElementById('testimonial-quote');
+        const testimonialName = document.getElementById('testimonial-name');
+        const testimonialRole = document.getElementById('testimonial-role');
+        const testimonialAvatar = document.getElementById('testimonial-avatar');
+        const testimonialImage = document.getElementById('testimonial-image');
+        const testimonialCardTitle = document.getElementById('testimonial-card-title');
+        const testimonialCardPrice = document.getElementById('testimonial-card-price');
+        const testimonialStars = document.getElementById('testimonial-stars');
+        const testimonialCardNote = document.getElementById('testimonial-card-note');
+        const testimonialPrev = document.getElementById('testimonial-prev');
+        const testimonialNext = document.getElementById('testimonial-next');
+
+        let testimonialIndex = 0;
+        let testimonialTimer;
+
+        function renderTestimonial(index) {
+            const item = testimonials[index];
+            testimonialQuote.textContent = item.quote;
+            testimonialName.textContent = item.name;
+            testimonialRole.textContent = item.role;
+            testimonialAvatar.src = item.avatar;
+            testimonialImage.src = item.image;
+            testimonialCardTitle.textContent = item.cardTitle;
+            testimonialCardPrice.textContent = item.price;
+            testimonialStars.textContent = '★'.repeat(item.rating);
+            testimonialCardNote.textContent = item.note;
+        }
+
+        function showNextTestimonial() {
+            testimonialIndex = (testimonialIndex + 1) % testimonials.length;
+            renderTestimonial(testimonialIndex);
+        }
+
+        function showPrevTestimonial() {
+            testimonialIndex = (testimonialIndex - 1 + testimonials.length) % testimonials.length;
+            renderTestimonial(testimonialIndex);
+        }
+
+        function resetTestimonialTimer() {
+            clearInterval(testimonialTimer);
+            testimonialTimer = setInterval(showNextTestimonial, 3000);
+        }
+
+        testimonialPrev.addEventListener('click', () => {
+            showPrevTestimonial();
+            resetTestimonialTimer();
+        });
+
+        testimonialNext.addEventListener('click', () => {
+            showNextTestimonial();
+            resetTestimonialTimer();
+        });
+
+        renderTestimonial(testimonialIndex);
+        resetTestimonialTimer();
 
         function toggleMenu(type) {
             const menuMan = document.getElementById('menu-man');
