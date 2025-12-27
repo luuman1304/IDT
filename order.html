@@ -540,6 +540,65 @@
             renderSummaryItems();
         }
 
+        function formatOrderDateTime(date) {
+            const pad = (value) => String(value).padStart(2, '0');
+            return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+        }
+
+        function buildOrderPayload() {
+            const pack = packageMap[selectedPackageDaysCount];
+            const pricePerDay = pack ? Math.round(pack.price / pack.days) : 0;
+            const addons = productRows
+                .map((row) => {
+                    const qty = Number(row.querySelector('input').value);
+                    if (qty <= 0) {
+                        return null;
+                    }
+                    return {
+                        name: row.dataset.name,
+                        qty,
+                        price: Number(row.dataset.price)
+                    };
+                })
+                .filter(Boolean);
+            const params = new URLSearchParams(window.location.search);
+            const orderId = `LT-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(100 + Math.random() * 900)}`;
+
+            return {
+                order_id: orderId,
+                order_time: formatOrderDateTime(new Date()),
+                package: {
+                    type: pack ? `${pack.days}_days` : '',
+                    days: pack ? pack.days : 0,
+                    price_per_day: pricePerDay,
+                    total_price: pack ? pack.price : 0
+                },
+                schedule: {
+                    from_date: dateFrom.value || '',
+                    to_date: dateTo.value || '',
+                    include_weekend: includeWeekendToggle.checked
+                },
+                addons,
+                customer: {
+                    full_name: orderForm.querySelector('[name="customer_name"]').value.trim(),
+                    phone: orderForm.querySelector('[name="customer_phone"]').value.trim(),
+                    email: orderForm.querySelector('[name="customer_email"]').value.trim()
+                },
+                delivery: {
+                    address: orderForm.querySelector('[name="delivery_address"]').value.trim(),
+                    district: orderForm.querySelector('[name="delivery_district"]').value.trim(),
+                    ward: orderForm.querySelector('[name="delivery_ward"]').value.trim(),
+                    note: orderForm.querySelector('[name="delivery_note"]').value.trim()
+                },
+                tracking: {
+                    utm_source: params.get('utm_source') || '',
+                    utm_medium: params.get('utm_medium') || '',
+                    utm_campaign: params.get('utm_campaign') || '',
+                    page_url: window.location.href
+                }
+            };
+        }
+
         packageOptions.forEach((option) => {
             option.addEventListener('change', () => {
                 const days = Number(option.value);
@@ -622,6 +681,8 @@
                 return;
             }
             event.preventDefault();
+            const payload = buildOrderPayload();
+            sessionStorage.setItem('lotrua_order_payload', JSON.stringify(payload));
             window.location.href = 'success.html';
         });
 

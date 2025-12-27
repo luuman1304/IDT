@@ -34,5 +34,68 @@
             </div>
         </div>
     </main>
+
+    <script>
+        const ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxC7JMZHPM-Ul3f03wnzZ-ovrZNtyst2iFANTdSME2RzlG71rDWecrKv3rq6jzavF-uGw/exec';
+        const ORDER_PAYLOAD_KEY = 'lotrua_order_payload';
+        const ORDER_SENT_KEY = 'lotrua_order_sent';
+
+        async function sendOrderToSheet(payload) {
+            const response = await fetch(ORDER_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send order data');
+            }
+        }
+
+        function shouldSendOrder(orderId) {
+            if (!orderId) {
+                return false;
+            }
+            if (localStorage.getItem(`lotrua_order_sent_${orderId}`)) {
+                return false;
+            }
+            if (sessionStorage.getItem(ORDER_SENT_KEY) === orderId) {
+                return false;
+            }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const rawPayload = sessionStorage.getItem(ORDER_PAYLOAD_KEY);
+            if (!rawPayload) {
+                return;
+            }
+
+            let payload;
+            try {
+                payload = JSON.parse(rawPayload);
+            } catch (error) {
+                console.error('Invalid order payload', error);
+                return;
+            }
+
+            if (!shouldSendOrder(payload.order_id)) {
+                return;
+            }
+
+            sessionStorage.setItem(ORDER_SENT_KEY, payload.order_id);
+
+            sendOrderToSheet(payload)
+                .then(() => {
+                    localStorage.setItem(`lotrua_order_sent_${payload.order_id}`, 'true');
+                    sessionStorage.removeItem(ORDER_PAYLOAD_KEY);
+                })
+                .catch((error) => {
+                    console.error('Unable to send order payload', error);
+                });
+        });
+    </script>
 </body>
 </html>
