@@ -36,66 +36,111 @@
     </main>
 
     <script>
-        const ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxC7JMZHPM-Ul3f03wnzZ-ovrZNtyst2iFANTdSME2RzlG71rDWecrKv3rq6jzavF-uGw/exec';
+        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxC7JMZHPM-Ul3f03wnzZ-ovrZNtyst2iFANTdSME2RzlG71rDWecrKv3rq6jzavF-uGw/exec';
         const ORDER_PAYLOAD_KEY = 'lotrua_order_payload';
-        const ORDER_SENT_KEY = 'lotrua_order_sent';
 
-        async function sendOrderToSheet(payload) {
-            const response = await fetch(ORDER_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to send order data');
-            }
+        function getUTM() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                utm_source: params.get('utm_source') || '',
+                utm_medium: params.get('utm_medium') || '',
+                utm_campaign: params.get('utm_campaign') || '',
+                page_url: window.location.href
+            };
         }
 
-        function shouldSendOrder(orderId) {
-            if (!orderId) {
-                return false;
+        function normalizeOrderTime(orderTime) {
+            if (!orderTime) {
+                return new Date().toISOString();
             }
-            if (localStorage.getItem(`lotrua_order_sent_${orderId}`)) {
-                return false;
+            const parsed = new Date(orderTime);
+            if (Number.isNaN(parsed.getTime())) {
+                return new Date().toISOString();
             }
-            if (sessionStorage.getItem(ORDER_SENT_KEY) === orderId) {
-                return false;
-            }
-            return true;
+            return parsed.toISOString();
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const rawPayload = sessionStorage.getItem(ORDER_PAYLOAD_KEY);
-            if (!rawPayload) {
+        function buildPayload() {
+            const storedPayload = sessionStorage.getItem(ORDER_PAYLOAD_KEY);
+            if (storedPayload) {
+                try {
+                    const parsed = JSON.parse(storedPayload);
+                    return {
+                        ...parsed,
+                        order_time: normalizeOrderTime(parsed.order_time),
+                        tracking: getUTM()
+                    };
+                } catch (error) {
+                    console.warn('Invalid stored payload, falling back to page data.', error);
+                }
+            }
+
+            const orderId = window.order_id || '';
+
+            return {
+                order_id: orderId,
+                order_time: new Date().toISOString(),
+                package: window.package || { type: '', days: 0, price_per_day: 0, total_price: 0 },
+                schedule: window.schedule || { from_date: '', to_date: '', include_weekend: false },
+                addons: window.addons || [],
+                customer: window.customer || { full_name: '', phone: '', email: '' },
+                delivery: window.delivery || { address: '', district: '', ward: '', note: '' },
+                tracking: getUTM()
+            };
+        }
+
+        async function sendToSheet(payload) {
+            const sentKey = `lt_sent_${payload.order_id}`;
+            if (!payload.order_id) {
+                console.warn('Missing order_id, skip sending.');
+                return;
+            }
+            if (localStorage.getItem(sentKey) === '1') {
+                console.log('Already sent:', payload.order_id);
                 return;
             }
 
-            let payload;
-            try {
-                payload = JSON.parse(rawPayload);
-            } catch (error) {
-                console.error('Invalid order payload', error);
-                return;
-            }
-
-            if (!shouldSendOrder(payload.order_id)) {
-                return;
-            }
-
-            sessionStorage.setItem(ORDER_SENT_KEY, payload.order_id);
-
-            sendOrderToSheet(payload)
-                .then(() => {
-                    localStorage.setItem(`lotrua_order_sent_${payload.order_id}`, 'true');
-                    sessionStorage.removeItem(ORDER_PAYLOAD_KEY);
-                })
-                .catch((error) => {
-                    console.error('Unable to send order payload', error);
+            const doSend = async () => {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
-        });
+                const text = await response.text();
+                console.log('Webhook response:', text);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                return text;
+            };
+
+            try {
+                await doSend();
+                localStorage.setItem(sentKey, '1');
+            } catch (error) {
+                console.warn('Webhook failed, retry in 2s...', error);
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+                await doSend();
+                localStorage.setItem(sentKey, '1');
+            }
+        }
+
+        function initOnSuccessPageLoad() {
+            const rawPayload = sessionStorage.getItem(ORDER_PAYLOAD_KEY);
+            const payload = buildPayload();
+            const status = window.order_status || payload.status || payload.order_status || 'SUCCESS';
+            const isSuccessPage = Boolean(rawPayload) || window.location.href.includes('success');
+
+            if (!isSuccessPage || status !== 'SUCCESS') {
+                return;
+            }
+
+            sendToSheet(payload).catch((error) => {
+                console.error('Unable to send order payload', error);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initOnSuccessPageLoad);
     </script>
 </body>
 </html>
