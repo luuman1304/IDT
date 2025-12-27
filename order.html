@@ -243,6 +243,9 @@
                                 </div>
                             </div>
                         </div>
+                        <p id="submit-warning" class="text-xs font-semibold text-orange-600 hidden">
+                            Vui lòng hoàn tất thông tin bắt buộc ở bước 1 và bước 2 trước khi xác nhận đặt hàng.
+                        </p>
                     </div>
 
                     <div class="flex items-center justify-between gap-3">
@@ -415,9 +418,6 @@
             stepPanels.forEach((panel) => {
                 const isActive = Number(panel.dataset.step) === currentStep;
                 panel.classList.toggle('hidden', !isActive);
-                panel.querySelectorAll('[data-required="true"]').forEach((field) => {
-                    field.required = isActive;
-                });
             });
 
             stepIndicators.forEach((indicator, index) => {
@@ -433,6 +433,30 @@
             stepPrev.classList.toggle('hidden', currentStep === 1);
             stepNext.classList.toggle('hidden', currentStep === 3);
             stepSubmit.classList.toggle('hidden', currentStep !== 3);
+            updateSubmitState();
+        }
+
+        function isFieldFilled(field) {
+            if (field.type === 'checkbox') {
+                return field.checked;
+            }
+            return Boolean(field.value && field.value.trim());
+        }
+
+        function getMissingRequiredFields() {
+            return requiredFields.filter((field) => !isFieldFilled(field));
+        }
+
+        function updateSubmitState() {
+            const missingFields = getMissingRequiredFields();
+            const canSubmit = missingFields.length === 0;
+            const warning = document.getElementById('submit-warning');
+            stepSubmit.disabled = !canSubmit;
+            stepSubmit.classList.toggle('opacity-50', !canSubmit);
+            stepSubmit.classList.toggle('cursor-not-allowed', !canSubmit);
+            if (warning) {
+                warning.classList.toggle('hidden', canSubmit || currentStep !== 3);
+            }
         }
 
         function setSelectedPackage(days) {
@@ -572,7 +596,31 @@
             }
         });
 
+        stepIndicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentStep = index + 1;
+                updateStepView();
+            });
+        });
+
+        requiredFields.forEach((field) => {
+            field.addEventListener('input', updateSubmitState);
+            field.addEventListener('change', updateSubmitState);
+        });
+
         orderForm.addEventListener('submit', (event) => {
+            const missingFields = getMissingRequiredFields();
+            if (missingFields.length > 0) {
+                event.preventDefault();
+                const firstMissing = missingFields[0];
+                const stepPanel = firstMissing.closest('[data-step]');
+                if (stepPanel) {
+                    currentStep = Number(stepPanel.dataset.step);
+                    updateStepView();
+                    firstMissing.focus();
+                }
+                return;
+            }
             event.preventDefault();
             window.location.href = 'success.html';
         });
@@ -585,6 +633,7 @@
 
         requiredFields.forEach((field) => {
             field.dataset.required = 'true';
+            field.required = true;
         });
         setSelectedPackage(selectedPackageDaysCount);
         updatePackageDisplay(selectedPackageDaysCount);
