@@ -395,6 +395,7 @@
         const packageOptions = Array.from(document.querySelectorAll('.package-option'));
         const packageCards = Array.from(document.querySelectorAll('[data-package]'));
         const productRows = Array.from(document.querySelectorAll('[data-product]'));
+        const trackingEndpoint = 'https://script.google.com/macros/s/AKfycbxC7JMZHPM-Ul3f03wnzZ-ovrZNtyst2iFANTdSME2RzlG71rDWecrKv3rq6jzavF-uGw/exec';
         const packageMap = {
             1: { name: 'Combo 1 ngày', note: 'Ăn thử 1 ngày', days: 1, price: 42000 },
             7: { name: 'Combo 7 ngày', note: 'Lo trọn bữa trưa 1 tuần', days: 7, price: 266000 },
@@ -409,6 +410,32 @@
         const tomorrowValue = tomorrow.toISOString().split('T')[0];
         let selectedPackageDaysCount = 7;
         let currentStep = 1;
+        const sessionKey = 'idt_session_id';
+        const existingSession = sessionStorage.getItem(sessionKey);
+        const sessionId = existingSession || `SSID-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+        if (!existingSession) {
+            sessionStorage.setItem(sessionKey, sessionId);
+        }
+        const behaviorStartTime = Date.now();
+        const user_behavior = {
+            session_id: sessionId,
+            clicks: [],
+            maxScroll: 0,
+            timeOnPage: 0
+        };
+        let orderSubmitClicked = false;
+
+        function updateTimeOnPage() {
+            user_behavior.timeOnPage = Math.floor((Date.now() - behaviorStartTime) / 1000);
+        }
+
+        function updateMaxScroll() {
+            const doc = document.documentElement;
+            const scrollTop = window.pageYOffset || doc.scrollTop || 0;
+            const scrollHeight = doc.scrollHeight - doc.clientHeight;
+            const percent = scrollHeight > 0 ? Math.round((scrollTop / scrollHeight) * 100) : 0;
+            user_behavior.maxScroll = Math.max(user_behavior.maxScroll, percent);
+        }
 
         function formatCurrency(value) {
             return `${new Intl.NumberFormat('vi-VN').format(value)}đ`;
@@ -673,6 +700,7 @@
             const orderId = `LT-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(100 + Math.random() * 900)}`;
             const packageTotal = pack ? pack.price : 0;
             const finalTotal = packageTotal + addonsTotal;
+            updateTimeOnPage();
 
             return {
                 order_id: orderId,
@@ -705,7 +733,8 @@
                     utm_medium: params.get('utm_medium') || '',
                     utm_campaign: params.get('utm_campaign') || '',
                     page_url: window.location.href
-                }
+                },
+                user_behavior
             };
         }
 
@@ -779,6 +808,25 @@
 
         const submitButtonLabel = stepSubmit.textContent;
 
+        document.addEventListener('click', (event) => {
+            const button = event.target.closest('button');
+            if (!button) {
+                return;
+            }
+            const label = button.id || button.textContent.trim() || 'button';
+            user_behavior.clicks.push({
+                button: label,
+                time: new Date().toISOString()
+            });
+        });
+
+        window.addEventListener('scroll', updateMaxScroll, { passive: true });
+        const timeOnPageTimer = setInterval(updateTimeOnPage, 1000);
+
+        stepSubmit.addEventListener('click', () => {
+            orderSubmitClicked = true;
+        });
+
         function setSubmitLoading(isLoading) {
             stepSubmit.disabled = isLoading;
             stepSubmit.classList.toggle('opacity-50', isLoading);
@@ -800,11 +848,12 @@
                 return;
             }
             event.preventDefault();
+            orderSubmitClicked = true;
             setSubmitLoading(true);
             const payload = buildOrderPayload();
             sessionStorage.setItem('lotrua_order_payload', JSON.stringify(payload));
             try {
-                await fetch('https://script.google.com/macros/s/AKfycbxC7JMZHPM-Ul3f03wnzZ-ovrZNtyst2iFANTdSME2RzlG71rDWecrKv3rq6jzavF-uGw/exec', {
+                await fetch(trackingEndpoint, {
                     method: 'POST',
                     mode: 'no-cors',
                     redirect: 'follow',
@@ -820,6 +869,29 @@
                 setSubmitLoading(false);
                 alert(error.message || 'Không thể gửi đơn hàng. Vui lòng thử lại.');
             }
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (orderSubmitClicked) {
+                return;
+            }
+            updateTimeOnPage();
+            updateMaxScroll();
+            const payload = JSON.stringify({ user_behavior });
+            if (navigator.sendBeacon) {
+                const blob = new Blob([payload], { type: 'text/plain;charset=utf-8' });
+                navigator.sendBeacon(trackingEndpoint, blob);
+                return;
+            }
+            fetch(trackingEndpoint, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: payload,
+                keepalive: true
+            }).catch(() => {});
         });
 
         const params = new URLSearchParams(window.location.search);
@@ -840,6 +912,7 @@
         updateStepView();
         productRows.forEach((row) => updateProductRow(row, 0));
         updateProductsSummary();
+        updateMaxScroll();
     </script>
 </body>
 </html>
