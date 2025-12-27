@@ -387,6 +387,7 @@
         const stepSubmit = document.getElementById('step-submit');
         const orderForm = document.querySelector('form');
         const formError = document.getElementById('form-error');
+        const customerPhoneInput = orderForm.querySelector('[name="customer_phone"]');
         const stepIndicators = [
             document.getElementById('step-indicator-1'),
             document.getElementById('step-indicator-2'),
@@ -655,24 +656,6 @@
             return missing;
         }
 
-        function getFirstInvalidField() {
-            const fields = Array.from(orderForm.elements).filter((field) => field.willValidate);
-            for (const field of fields) {
-                if (field.type === 'radio') {
-                    const group = orderForm.querySelectorAll(`[name="${CSS.escape(field.name)}"]`);
-                    const hasChecked = Array.from(group).some((option) => option.checked);
-                    if (!hasChecked) {
-                        return field;
-                    }
-                    continue;
-                }
-                if (!field.checkValidity()) {
-                    return field;
-                }
-            }
-            return null;
-        }
-
         function showFormError(message) {
             if (!formError) {
                 return;
@@ -701,6 +684,80 @@
             if (canSubmit) {
                 clearFormError();
             }
+        }
+
+        function sanitizePhoneValue(value) {
+            return value.replace(/\D/g, '');
+        }
+
+        function updatePhoneValidity() {
+            if (!customerPhoneInput) {
+                return;
+            }
+            const value = customerPhoneInput.value.trim();
+            if (!value) {
+                customerPhoneInput.setCustomValidity('');
+                return;
+            }
+            const isValid = /^\d{10,11}$/.test(value);
+            customerPhoneInput.setCustomValidity(isValid ? '' : 'Vui lòng nhập đúng 10-11 chữ số điện thoại');
+        }
+
+        function recordPhoneValidationError() {
+            user_behavior.key_actions.push({
+                action: 'validation_error',
+                field: 'customer_phone'
+            });
+        }
+
+        function focusInvalidField(field) {
+            const stepPanel = field.closest('[data-step]');
+            if (stepPanel) {
+                currentStep = Number(stepPanel.dataset.step);
+                updateStepView();
+            }
+            showFormError('Vui lòng hoàn tất các trường bắt buộc trước khi gửi đơn.');
+            trackKeyAction('validation_error', field.name || field.placeholder || 'unknown');
+            field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (typeof field.focus === 'function') {
+                field.focus();
+            }
+            requestAnimationFrame(() => {
+                if (typeof field.reportValidity === 'function') {
+                    field.reportValidity();
+                }
+            });
+        }
+
+        function validateFormAndFocus() {
+            const fields = Array.from(orderForm.elements).filter((field) => field.willValidate);
+            const handledRadioNames = new Set();
+            for (const field of fields) {
+                if (field.type === 'radio') {
+                    if (handledRadioNames.has(field.name)) {
+                        continue;
+                    }
+                    handledRadioNames.add(field.name);
+                    const group = orderForm.querySelectorAll(`[name="${CSS.escape(field.name)}"]`);
+                    const hasChecked = Array.from(group).some((option) => option.checked);
+                    if (!hasChecked) {
+                        focusInvalidField(field);
+                        return false;
+                    }
+                    continue;
+                }
+                if (field.name === 'customer_phone') {
+                    updatePhoneValidity();
+                }
+                if (!field.validity.valid) {
+                    if (field.name === 'customer_phone') {
+                        recordPhoneValidationError();
+                    }
+                    focusInvalidField(field);
+                    return false;
+                }
+            }
+            return true;
         }
 
         function setSelectedPackage(days) {
@@ -902,6 +959,17 @@
 
         dateFrom.addEventListener('change', updateDateRange);
         discountCode.addEventListener('input', updateProductsSummary);
+        if (customerPhoneInput) {
+            customerPhoneInput.addEventListener('input', (event) => {
+                const cleaned = sanitizePhoneValue(event.target.value);
+                if (event.target.value !== cleaned) {
+                    event.target.value = cleaned;
+                }
+                updatePhoneValidity();
+                updateSubmitState();
+            });
+            customerPhoneInput.addEventListener('blur', updatePhoneValidity);
+        }
 
         stepNext.addEventListener('click', () => {
             if (currentStep < 3) {
@@ -958,40 +1026,7 @@
 
         orderForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const firstInvalid = getFirstInvalidField();
-            if (firstInvalid) {
-                const stepPanel = firstInvalid.closest('[data-step]');
-                if (stepPanel) {
-                    currentStep = Number(stepPanel.dataset.step);
-                    updateStepView();
-                }
-                showFormError('Vui lòng hoàn tất các trường bắt buộc trước khi gửi đơn.');
-                trackKeyAction('validation_error', firstInvalid.name || firstInvalid.placeholder || 'unknown');
-                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                if (typeof firstInvalid.focus === 'function') {
-                    firstInvalid.focus();
-                }
-                setTimeout(() => {
-                    if (typeof firstInvalid.reportValidity === 'function') {
-                        firstInvalid.reportValidity();
-                    }
-                }, 50);
-                return;
-            }
-            const missingFields = getMissingRequiredFields();
-            if (missingFields.length > 0) {
-                const firstMissing = missingFields[0];
-                const stepPanel = firstMissing.closest('[data-step]');
-                if (stepPanel) {
-                    currentStep = Number(stepPanel.dataset.step);
-                    updateStepView();
-                }
-                showFormError('Vui lòng hoàn tất các trường bắt buộc trước khi gửi đơn.');
-                trackKeyAction('validation_error', firstMissing.name || firstMissing.placeholder || 'unknown');
-                firstMissing.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                if (typeof firstMissing.focus === 'function') {
-                    firstMissing.focus();
-                }
+            if (!validateFormAndFocus()) {
                 return;
             }
             orderSubmitClicked = true;
