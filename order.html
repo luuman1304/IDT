@@ -410,6 +410,7 @@
         today.setHours(0, 0, 0, 0);
         const tomorrow = addDays(today, 1);
         const tomorrowValue = tomorrow.toISOString().split('T')[0];
+        const queryParams = new URLSearchParams(window.location.search);
         let selectedPackageDaysCount = 7;
         let currentStep = 1;
         const sessionKey = 'idt_session_id';
@@ -421,11 +422,20 @@
         const behaviorStartTime = Date.now();
         const user_behavior = {
             session_id: sessionId,
-            clicks: [],
+            key_actions: [],
+            product_interactions: [],
             maxScroll: 0,
-            timeOnPage: 0
+            timeOnPage: 0,
+            last_step_reached: 'Bước 1: Gói & Sản phẩm',
+            referral_source: document.referrer || queryParams.get('utm_source') || ''
         };
+        const productInteractionMap = {};
         let orderSubmitClicked = false;
+        const stepLabels = {
+            1: 'Bước 1: Gói & Sản phẩm',
+            2: 'Bước 2: Giao hàng',
+            3: 'Bước 3: Xác nhận'
+        };
 
         function updateTimeOnPage() {
             user_behavior.timeOnPage = Math.floor((Date.now() - behaviorStartTime) / 1000);
@@ -437,6 +447,36 @@
             const scrollHeight = doc.scrollHeight - doc.clientHeight;
             const percent = scrollHeight > 0 ? Math.round((scrollTop / scrollHeight) * 100) : 0;
             user_behavior.maxScroll = Math.max(user_behavior.maxScroll, percent);
+        }
+
+        function updateLastStepReached(step = currentStep) {
+            user_behavior.last_step_reached = stepLabels[step] || user_behavior.last_step_reached;
+        }
+
+        function trackKeyAction(action, detail = '') {
+            user_behavior.key_actions.push({
+                action,
+                detail,
+                step: stepLabels[currentStep] || '',
+                time: new Date().toISOString()
+            });
+        }
+
+        function trackProductInteraction(row) {
+            const name = row.dataset.name;
+            if (!name) {
+                return;
+            }
+            if (!productInteractionMap[name]) {
+                productInteractionMap[name] = {
+                    name,
+                    total_clicks: 0,
+                    final_qty: 0
+                };
+            }
+            productInteractionMap[name].total_clicks += 1;
+            productInteractionMap[name].final_qty = Number(row.querySelector('input').value);
+            user_behavior.product_interactions = Object.values(productInteractionMap);
         }
 
         function formatCurrency(value) {
@@ -567,6 +607,7 @@
             stepPrev.classList.toggle('hidden', currentStep === 1);
             stepNext.classList.toggle('hidden', currentStep === 3);
             stepSubmit.classList.toggle('hidden', currentStep !== 3);
+            updateLastStepReached();
             updateSubmitState();
         }
 
@@ -602,6 +643,24 @@
             return missing;
         }
 
+        function getFirstInvalidField() {
+            const fields = Array.from(orderForm.elements).filter((field) => field.willValidate);
+            for (const field of fields) {
+                if (field.type === 'radio') {
+                    const group = orderForm.querySelectorAll(`[name="${CSS.escape(field.name)}"]`);
+                    const hasChecked = Array.from(group).some((option) => option.checked);
+                    if (!hasChecked) {
+                        return field;
+                    }
+                    continue;
+                }
+                if (!field.checkValidity()) {
+                    return field;
+                }
+            }
+            return null;
+        }
+
         function showFormError(message) {
             if (!formError) {
                 return;
@@ -619,8 +678,7 @@
         }
 
         function updateSubmitState() {
-            const missingFields = getMissingRequiredFields();
-            const canSubmit = missingFields.length === 0;
+            const canSubmit = orderForm.checkValidity() && getMissingRequiredFields().length === 0;
             const warning = document.getElementById('submit-warning');
             stepSubmit.disabled = !canSubmit;
             stepSubmit.classList.toggle('opacity-50', !canSubmit);
@@ -738,13 +796,13 @@
                     subtotal
                 });
             });
-            const params = new URLSearchParams(window.location.search);
             const orderId = `LT-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(100 + Math.random() * 900)}`;
             const packageTotal = pack ? pack.price : 0;
             const finalTotal = packageTotal + addonsTotal;
             updateTimeOnPage();
 
             return {
+                event_name: 'CONVERSION_ORDER',
                 order_id: orderId,
                 order_time: formatOrderDateTime(new Date()),
                 package: {
@@ -771,9 +829,9 @@
                     note: orderForm.querySelector('[name="delivery_note"]').value.trim()
                 },
                 tracking: {
-                    utm_source: params.get('utm_source') || '',
-                    utm_medium: params.get('utm_medium') || '',
-                    utm_campaign: params.get('utm_campaign') || '',
+                    utm_source: queryParams.get('utm_source') || '',
+                    utm_medium: queryParams.get('utm_medium') || '',
+                    utm_campaign: queryParams.get('utm_campaign') || '',
                     page_url: window.location.href
                 },
                 user_behavior
@@ -786,6 +844,8 @@
                 updatePackageDisplay(days);
                 setSelectedPackage(days);
                 updateDateRange();
+                const pack = packageMap[days];
+                trackKeyAction('select_package', pack ? pack.name : `${days} ngày`);
             });
         });
 
@@ -795,6 +855,8 @@
                 updatePackageDisplay(days);
                 setSelectedPackage(days);
                 updateDateRange();
+                const pack = packageMap[days];
+                trackKeyAction('select_package', pack ? pack.name : `${days} ngày`);
             });
         });
 
@@ -810,6 +872,7 @@
                     }
                     updateProductRow(row, qty);
                     updateProductsSummary();
+                    trackProductInteraction(row);
                 });
             });
         });
@@ -826,6 +889,7 @@
             if (currentStep < 3) {
                 currentStep += 1;
                 updateStepView();
+                trackKeyAction('step_change', stepLabels[currentStep]);
             }
         });
 
@@ -833,6 +897,7 @@
             if (currentStep > 1) {
                 currentStep -= 1;
                 updateStepView();
+                trackKeyAction('step_change', stepLabels[currentStep]);
             }
         });
 
@@ -840,6 +905,7 @@
             indicator.addEventListener('click', () => {
                 currentStep = index + 1;
                 updateStepView();
+                trackKeyAction('step_change', stepLabels[currentStep]);
             });
         });
 
@@ -850,23 +916,12 @@
 
         const submitButtonLabel = stepSubmit.textContent;
 
-        document.addEventListener('click', (event) => {
-            const button = event.target.closest('button');
-            if (!button) {
-                return;
-            }
-            const label = button.id || button.textContent.trim() || 'button';
-            user_behavior.clicks.push({
-                button: label,
-                time: new Date().toISOString()
-            });
-        });
-
         window.addEventListener('scroll', updateMaxScroll, { passive: true });
         const timeOnPageTimer = setInterval(updateTimeOnPage, 1000);
 
         stepSubmit.addEventListener('click', () => {
             orderSubmitClicked = true;
+            trackKeyAction('submit_order', 'Đặt hàng');
         });
 
         function setSubmitLoading(isLoading) {
@@ -878,6 +933,28 @@
 
         orderForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+            if (!orderForm.checkValidity()) {
+                const firstInvalid = getFirstInvalidField();
+                if (!firstInvalid) {
+                    return;
+                }
+                const stepPanel = firstInvalid.closest('[data-step]');
+                if (stepPanel) {
+                    currentStep = Number(stepPanel.dataset.step);
+                    updateStepView();
+                }
+                showFormError('Vui lòng hoàn tất các trường bắt buộc trước khi gửi đơn.');
+                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (typeof firstInvalid.focus === 'function') {
+                    firstInvalid.focus();
+                }
+                setTimeout(() => {
+                    if (typeof firstInvalid.reportValidity === 'function') {
+                        firstInvalid.reportValidity();
+                    }
+                }, 50);
+                return;
+            }
             const missingFields = getMissingRequiredFields();
             if (missingFields.length > 0) {
                 const firstMissing = missingFields[0];
@@ -894,6 +971,7 @@
                 return;
             }
             orderSubmitClicked = true;
+            updateLastStepReached(3);
             setSubmitLoading(true);
             const payload = buildOrderPayload();
             sessionStorage.setItem('lotrua_order_payload', JSON.stringify(payload));
@@ -923,7 +1001,11 @@
             }
             updateTimeOnPage();
             updateMaxScroll();
-            const payload = JSON.stringify({ user_behavior });
+            updateLastStepReached();
+            const payload = JSON.stringify({
+                event_name: 'VISITOR_EXIT',
+                user_behavior
+            });
             if (navigator.sendBeacon) {
                 const blob = new Blob([payload], { type: 'text/plain;charset=utf-8' });
                 navigator.sendBeacon(trackingEndpoint, blob);
@@ -940,8 +1022,7 @@
             }).catch(() => {});
         });
 
-        const params = new URLSearchParams(window.location.search);
-        const preselect = Number(params.get('package'));
+        const preselect = Number(queryParams.get('package'));
         if (!Number.isNaN(preselect) && packageMap[preselect]) {
             selectedPackageDaysCount = preselect;
         }
