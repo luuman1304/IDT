@@ -193,7 +193,7 @@
                         <div class="grid grid-cols-1 gap-4">
                             <input type="text" name="customer_name" placeholder="Họ và tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <input type="tel" name="customer_phone" placeholder="Số điện thoại" required inputmode="numeric" pattern="\\d{10,11}" minlength="10" maxlength="11" title="Vui lòng nhập 10-11 chữ số." class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                <input type="tel" name="customer_phone" placeholder="Số điện thoại" required inputmode="numeric" class="w-full p-4 rounded-xl bg-slate-50 border-none">
                                 <input type="email" name="customer_email" placeholder="Email" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                             </div>
                             <input type="text" name="delivery_address" placeholder="Địa chỉ giao (công ty/nhà)" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
@@ -694,13 +694,7 @@
             if (!customerPhoneInput) {
                 return;
             }
-            const value = customerPhoneInput.value.trim();
-            if (!value) {
-                customerPhoneInput.setCustomValidity('');
-                return;
-            }
-            const isValid = /^\d{10,11}$/.test(value);
-            customerPhoneInput.setCustomValidity(isValid ? '' : 'Vui lòng nhập đúng 10-11 chữ số điện thoại');
+            customerPhoneInput.setCustomValidity('');
         }
 
         function recordPhoneValidationError() {
