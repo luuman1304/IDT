@@ -19,14 +19,6 @@
             border-color: rgba(249, 115, 22, 0.45);
             background-color: #fff7ed;
         }
-        .menu-image {
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            object-fit: cover;
-            box-shadow: 0 10px 18px rgba(15, 23, 42, 0.15);
-            border: 3px solid #fff;
-        }
         .date-field {
             min-width: 0;
             white-space: nowrap;
@@ -166,67 +158,43 @@
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold mb-4 italic uppercase">Thực Đơn Tuần Này</h2>
                 <p class="text-gray-400 text-sm mb-8">29/12/2025 - 05/01/2026</p>
-                <div class="inline-flex bg-slate-100 px-6 py-3 rounded-2xl font-bold text-orange-600 shadow-md">
-                    THỰC ĐƠN MẶN
-                </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4">
-                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&auto=format&fit=crop&q=80" alt="Thịt kho trứng" class="menu-image">
-                    <div class="text-left">
-                        <span class="text-xs font-bold text-orange-400">T2</span>
-                        <h4 class="font-bold text-base mt-1 italic">Thịt kho trứng</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh bí, rau muống</p>
-                    </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <span class="text-xs font-bold text-orange-400">T2</span>
+                    <h4 class="font-bold text-base mt-1 italic">Thịt kho trứng</h4>
+                    <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh bí, rau muống</p>
                 </div>
-                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=200&auto=format&fit=crop&q=80" alt="Phở bò" class="menu-image">
-                    <div class="text-left">
-                        <span class="text-xs font-bold text-orange-400">T3</span>
-                        <h4 class="font-bold text-base mt-1 italic">Phở bò Hà Nội</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Quẩy giòn, rau thơm</p>
-                    </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <span class="text-xs font-bold text-orange-400">T3</span>
+                    <h4 class="font-bold text-base mt-1 italic">Phở bò Hà Nội</h4>
+                    <p class="text-xs text-gray-500 italic mt-1 font-medium">Quẩy giòn, rau thơm</p>
                 </div>
-                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?w=200&auto=format&fit=crop&q=80" alt="Gà kho sả ớt" class="menu-image">
-                    <div class="text-left">
-                        <span class="text-xs font-bold text-orange-400">T4</span>
-                        <h4 class="font-bold text-base mt-1 italic">Gà kho sả ớt</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh cải, dưa leo</p>
-                    </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <span class="text-xs font-bold text-orange-400">T4</span>
+                    <h4 class="font-bold text-base mt-1 italic">Gà kho sả ớt</h4>
+                    <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh cải, dưa leo</p>
                 </div>
-                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=200&auto=format&fit=crop&q=80" alt="Bún chả Hà Nội" class="menu-image">
-                    <div class="text-left">
-                        <span class="text-xs font-bold text-orange-400">T5</span>
-                        <h4 class="font-bold text-base mt-1 italic">Bún chả Hà Nội</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Nước mắm, nem rán</p>
-                    </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <span class="text-xs font-bold text-orange-400">T5</span>
+                    <h4 class="font-bold text-base mt-1 italic">Bún chả Hà Nội</h4>
+                    <p class="text-xs text-gray-500 italic mt-1 font-medium">Nước mắm, nem rán</p>
                 </div>
-                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=200&auto=format&fit=crop&q=80" alt="Bò xào tỏi" class="menu-image">
-                    <div class="text-left">
-                        <span class="text-xs font-bold text-orange-400">T6</span>
-                        <h4 class="font-bold text-base mt-1 italic">Bò xào tỏi</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh chua, trứng rán</p>
-                    </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <span class="text-xs font-bold text-orange-400">T6</span>
+                    <h4 class="font-bold text-base mt-1 italic">Bò xào tỏi</h4>
+                    <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh chua, trứng rán</p>
                 </div>
-                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=200&auto=format&fit=crop&q=80" alt="Cơm tấm sườn" class="menu-image">
-                    <div class="text-left">
-                        <span class="text-xs font-bold text-orange-400">T7</span>
-                        <h4 class="font-bold text-base mt-1 italic">Cơm tấm sườn</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Bì chả, dưa góp</p>
-                    </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <span class="text-xs font-bold text-orange-400">T7</span>
+                    <h4 class="font-bold text-base mt-1 italic">Cơm tấm sườn</h4>
+                    <p class="text-xs text-gray-500 italic mt-1 font-medium">Bì chả, dưa góp</p>
                 </div>
-                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1458642849426-cfb724f15ef7?w=200&auto=format&fit=crop&q=80" alt="Bún bò Huế" class="menu-image">
-                    <div class="text-left">
-                        <span class="text-xs font-bold text-orange-400">CN</span>
-                        <h4 class="font-bold text-base mt-1 italic">Bún bò Huế</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Chả cua, rau sống</p>
-                    </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                    <span class="text-xs font-bold text-orange-400">CN</span>
+                    <h4 class="font-bold text-base mt-1 italic">Bún bò Huế</h4>
+                    <p class="text-xs text-gray-500 italic mt-1 font-medium">Chả cua, rau sống</p>
                 </div>
             </div>
         </div>
