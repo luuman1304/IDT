@@ -19,6 +19,12 @@
             border-color: rgba(249, 115, 22, 0.4);
             background-color: #fff7ed;
         }
+        .date-field {
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         /* Fix lỗi hiển thị menu */
         #menu-chay { display: none; }
     </style>
@@ -308,8 +314,8 @@
                         <input type="text" name="name" placeholder="Họ và Tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                         <input type="tel" name="phone" placeholder="Số điện thoại" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                         <div class="grid grid-cols-2 gap-4">
-                            <input type="date" id="date-from" name="from" class="w-full p-4 rounded-xl bg-slate-50 text-xs">
-                            <input type="date" id="date-to" name="to" class="w-full p-4 rounded-xl bg-slate-50 text-xs">
+                            <input type="date" id="date-from" name="from" class="date-field w-full p-4 rounded-xl bg-slate-50 text-[11px] sm:text-xs">
+                            <input type="date" id="date-to" name="to" class="date-field w-full p-4 rounded-xl bg-slate-50 text-[11px] sm:text-xs">
                         </div>
                         <div class="p-4 bg-orange-50 rounded-xl">
                             <p class="text-[10px] font-bold text-gray-400 mb-2 uppercase">Ngày bạn muốn ăn CHAY</p>
@@ -516,6 +522,10 @@
         const vegetarianHint = document.getElementById('vegetarian-hint');
         const maxRangeDays = 14;
         const dayLabels = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = addDays(today, 1);
+        const tomorrowValue = tomorrow.toISOString().split('T')[0];
 
         function parseDate(value) {
             if (!value) {
@@ -539,15 +549,22 @@
         }
 
         function updateDateConstraints() {
+            dateFrom.min = tomorrowValue;
+
             if (!dateFrom.value) {
-                dateTo.removeAttribute('min');
+                dateTo.min = tomorrowValue;
                 dateTo.removeAttribute('max');
                 return;
             }
 
-            const fromDate = parseDate(dateFrom.value);
+            let fromDate = parseDate(dateFrom.value);
             if (!fromDate) {
                 return;
+            }
+
+            if (fromDate < tomorrow) {
+                dateFrom.value = tomorrowValue;
+                fromDate = parseDate(dateFrom.value);
             }
 
             const maxDate = addDays(fromDate, maxRangeDays - 1);
@@ -556,8 +573,12 @@
 
             if (dateTo.value) {
                 const toDate = parseDate(dateTo.value);
-                if (toDate && toDate > maxDate) {
-                    dateTo.value = dateTo.max;
+                if (toDate) {
+                    if (toDate < fromDate) {
+                        dateTo.value = dateFrom.value;
+                    } else if (toDate > maxDate) {
+                        dateTo.value = dateTo.max;
+                    }
                 }
             }
         }
@@ -615,6 +636,8 @@
             updateVegetarianDays();
         });
 
+        dateFrom.min = tomorrowValue;
+        dateTo.min = tomorrowValue;
         updateDateConstraints();
         updateVegetarianDays();
     </script>
