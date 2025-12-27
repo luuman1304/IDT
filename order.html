@@ -192,15 +192,59 @@
                         <div class="grid grid-cols-1 gap-4">
                             <input type="text" name="customer_name" placeholder="Họ và tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <input type="tel" name="customer_phone" placeholder="Số điện thoại" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                <input type="tel" name="customer_phone" placeholder="Số điện thoại" required inputmode="numeric" pattern="\\d{10,11}" minlength="10" maxlength="11" title="Vui lòng nhập 10-11 chữ số." class="w-full p-4 rounded-xl bg-slate-50 border-none">
                                 <input type="email" name="customer_email" placeholder="Email" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                             </div>
                             <input type="text" name="delivery_address" placeholder="Địa chỉ giao (công ty/nhà)" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <input type="text" name="delivery_district" placeholder="Khu vực/Quận" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                                <input type="text" name="delivery_ward" placeholder="Phường" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                <select name="delivery_city" required class="w-full p-4 rounded-xl bg-slate-50 border-none text-slate-500">
+                                    <option value="TPHCM" selected>Thành phố Hồ Chí Minh</option>
+                                </select>
+                                <select name="delivery_ward" required class="w-full p-4 rounded-xl bg-slate-50 border-none text-slate-500">
+                                    <option value="" disabled selected>Chọn phường</option>
+                                    <option value="Phường Bến Nghé">Phường Bến Nghé</option>
+                                    <option value="Phường Bến Thành">Phường Bến Thành</option>
+                                    <option value="Phường Cô Giang">Phường Cô Giang</option>
+                                    <option value="Phường Cầu Kho">Phường Cầu Kho</option>
+                                    <option value="Phường Nguyễn Cư Trinh">Phường Nguyễn Cư Trinh</option>
+                                    <option value="Phường Phạm Ngũ Lão">Phường Phạm Ngũ Lão</option>
+                                    <option value="Phường Đa Kao">Phường Đa Kao</option>
+                                    <option value="Phường Tân Định">Phường Tân Định</option>
+                                    <option value="Phường Sài Gòn">Phường Sài Gòn</option>
+                                    <option value="Phường Thảo Điền">Phường Thảo Điền</option>
+                                    <option value="Phường An Phú">Phường An Phú</option>
+                                    <option value="Phường Bình Trưng">Phường Bình Trưng</option>
+                                    <option value="Phường Linh Chiểu">Phường Linh Chiểu</option>
+                                    <option value="Phường Linh Đông">Phường Linh Đông</option>
+                                    <option value="Phường Linh Tây">Phường Linh Tây</option>
+                                    <option value="Phường Tam Bình">Phường Tam Bình</option>
+                                    <option value="Phường Hiệp Bình Chánh">Phường Hiệp Bình Chánh</option>
+                                    <option value="Phường Hiệp Bình Phước">Phường Hiệp Bình Phước</option>
+                                    <option value="Phường Tân Phú">Phường Tân Phú</option>
+                                    <option value="Phường Tân Sơn Nhì">Phường Tân Sơn Nhì</option>
+                                    <option value="Phường Tây Thạnh">Phường Tây Thạnh</option>
+                                    <option value="Phường Phú Thạnh">Phường Phú Thạnh</option>
+                                    <option value="Phường Hòa Thạnh">Phường Hòa Thạnh</option>
+                                    <option value="Phường 1">Phường 1</option>
+                                    <option value="Phường 2">Phường 2</option>
+                                    <option value="Phường 3">Phường 3</option>
+                                    <option value="Phường 4">Phường 4</option>
+                                    <option value="Phường 5">Phường 5</option>
+                                    <option value="Phường 6">Phường 6</option>
+                                    <option value="Phường 7">Phường 7</option>
+                                    <option value="Phường 8">Phường 8</option>
+                                    <option value="Phường 9">Phường 9</option>
+                                    <option value="Phường 10">Phường 10</option>
+                                    <option value="Phường 11">Phường 11</option>
+                                    <option value="Phường 12">Phường 12</option>
+                                    <option value="Phường 13">Phường 13</option>
+                                    <option value="Phường 14">Phường 14</option>
+                                    <option value="Phường 15">Phường 15</option>
+                                    <option value="Phường 16">Phường 16</option>
+                                    <option value="Phường 17">Phường 17</option>
+                                </select>
                             </div>
-                            <textarea name="delivery_note" rows="3" placeholder="Ghi chú giao hàng (tòa nhà, sảnh, giờ nhận, gọi trước…)" required class="w-full p-4 rounded-xl bg-slate-50 border-none"></textarea>
+                            <textarea name="delivery_note" rows="3" placeholder="Ghi chú giao hàng (tòa nhà, sảnh, giờ nhận, gọi trước…)" class="w-full p-4 rounded-xl bg-slate-50 border-none"></textarea>
                         </div>
                     </div>
 
@@ -591,7 +635,7 @@
                 },
                 delivery: {
                     address: orderForm.querySelector('[name="delivery_address"]').value.trim(),
-                    district: orderForm.querySelector('[name="delivery_district"]').value.trim(),
+                    city: orderForm.querySelector('[name="delivery_city"]').value.trim(),
                     ward: orderForm.querySelector('[name="delivery_ward"]').value.trim(),
                     note: orderForm.querySelector('[name="delivery_note"]').value.trim()
                 },
