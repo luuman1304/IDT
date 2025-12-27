@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="grid gap-3">
                                     <label class="block">
-                                        <input type="radio" name="package" value="1" class="sr-only package-option">
+                                        <input type="radio" name="package" value="1" class="sr-only package-option" required>
                                         <div class="package-card border border-slate-200 rounded-2xl p-4 cursor-pointer bg-white" data-package="1">
                                             <div class="flex items-center justify-between">
                                                 <div>
@@ -83,7 +83,7 @@
                                         </div>
                                     </label>
                                     <label class="block">
-                                        <input type="radio" name="package" value="7" class="sr-only package-option">
+                                        <input type="radio" name="package" value="7" class="sr-only package-option" required>
                                         <div class="package-card border border-orange-200 rounded-2xl p-4 cursor-pointer bg-orange-50" data-package="7">
                                             <div class="flex items-center justify-between">
                                                 <div>
@@ -95,7 +95,7 @@
                                         </div>
                                     </label>
                                     <label class="block">
-                                        <input type="radio" name="package" value="14" class="sr-only package-option">
+                                        <input type="radio" name="package" value="14" class="sr-only package-option" required>
                                         <div class="package-card border border-slate-200 rounded-2xl p-4 cursor-pointer bg-white" data-package="14">
                                             <div class="flex items-center justify-between">
                                                 <div>
@@ -165,7 +165,7 @@
                                 <div class="grid grid-cols-2 gap-4 mt-2">
                                     <div>
                                         <p class="text-[11px] font-semibold text-slate-400 mb-1">From date</p>
-                                        <input type="date" id="date-from" name="from" class="date-field w-full p-4 rounded-xl bg-slate-50 text-[11px] sm:text-xs">
+                                        <input type="date" id="date-from" name="from" required class="date-field w-full p-4 rounded-xl bg-slate-50 text-[11px] sm:text-xs">
                                     </div>
                                     <div>
                                         <p class="text-[11px] font-semibold text-slate-400 mb-1">To date</p>
@@ -200,29 +200,29 @@
                                 <input type="text" name="delivery_district" placeholder="Khu vực/Quận" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                                 <input type="text" name="delivery_ward" placeholder="Phường" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                             </div>
-                            <textarea name="delivery_note" rows="3" placeholder="Ghi chú giao hàng (tòa nhà, sảnh, giờ nhận, gọi trước…)" class="w-full p-4 rounded-xl bg-slate-50 border-none"></textarea>
+                            <textarea name="delivery_note" rows="3" placeholder="Ghi chú giao hàng (tòa nhà, sảnh, giờ nhận, gọi trước…)" required class="w-full p-4 rounded-xl bg-slate-50 border-none"></textarea>
                         </div>
                     </div>
 
                     <div data-step="3" class="space-y-4 hidden">
-                        <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4 space-y-4">
-                            <p class="text-xs font-bold text-orange-500 uppercase">Tóm tắt đơn</p>
+                        <div class="rounded-2xl border border-slate-200 bg-white p-4 space-y-4">
+                            <p class="text-xs font-bold text-slate-500 uppercase">Tóm tắt đơn</p>
                             <div class="space-y-2">
                                 <p class="text-sm text-slate-600">Thời gian: <span id="summary-dates" class="font-semibold text-slate-800">--</span></p>
                                 <p class="text-sm text-slate-600">Bao gồm T7/CN: <span id="summary-weekend" class="font-semibold text-slate-800">Có</span></p>
                             </div>
-                            <div class="overflow-hidden rounded-xl border border-orange-100 bg-white">
-                                <div class="grid grid-cols-[1.4fr_0.6fr_0.8fr_0.8fr] gap-2 bg-orange-100/60 px-3 py-2 text-[11px] font-semibold text-orange-600">
+                            <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
+                                <div class="grid grid-cols-[1.4fr_0.6fr_0.8fr_0.8fr] gap-2 bg-slate-100 px-3 py-2 text-[11px] font-semibold text-slate-500">
                                     <span>Mục</span>
                                     <span class="text-center">SL</span>
                                     <span class="text-right">Đơn giá</span>
                                     <span class="text-right">Thành tiền</span>
                                 </div>
-                                <div id="summary-items" class="divide-y divide-orange-50 text-sm text-slate-700"></div>
+                                <div id="summary-items" class="divide-y divide-slate-200 text-sm text-slate-700"></div>
                             </div>
                             <div class="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
                                 <label class="text-sm font-semibold text-slate-700">Mã giảm giá</label>
-                                <input type="text" id="discount-code" name="discount_code" placeholder="Nhập mã giảm giá" class="w-full rounded-xl border border-orange-100 bg-white px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
+                                <input type="text" id="discount-code" name="discount_code" placeholder="Nhập mã giảm giá" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
                             </div>
                             <div class="space-y-2 text-sm text-slate-700">
                                 <div class="flex items-center justify-between">
@@ -237,9 +237,9 @@
                                     <span>Giảm giá</span>
                                     <span id="summary-discount" class="font-semibold text-orange-600">0đ</span>
                                 </div>
-                                <div class="flex items-center justify-between border-t border-dashed border-orange-100 pt-2 text-base font-bold text-slate-800">
+                                <div class="flex items-center justify-between border-t border-dashed border-slate-200 pt-2 text-lg font-extrabold text-slate-900">
                                     <span>Tổng tiền đơn</span>
-                                    <span id="summary-total">0đ</span>
+                                    <span id="summary-total" class="text-xl text-orange-600">0đ</span>
                                 </div>
                             </div>
                         </div>
@@ -251,10 +251,6 @@
                         <button type="submit" id="step-submit" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold hidden">Đặt hàng</button>
                     </div>
                 </form>
-                <div id="success-panel" class="hidden text-center py-10">
-                    <h2 class="text-2xl font-extrabold text-orange-600 mb-3">Đặt hàng thành công</h2>
-                    <p class="text-sm text-slate-600">Lo Trưa sẽ liên hệ lại bạn trong vòng 12 giờ.</p>
-                </div>
             </div>
         </div>
     </main>
@@ -280,7 +276,6 @@
         const stepPrev = document.getElementById('step-prev');
         const stepNext = document.getElementById('step-next');
         const stepSubmit = document.getElementById('step-submit');
-        const successPanel = document.getElementById('success-panel');
         const orderForm = document.querySelector('form');
         const stepIndicators = [
             document.getElementById('step-indicator-1'),
@@ -574,8 +569,7 @@
 
         orderForm.addEventListener('submit', (event) => {
             event.preventDefault();
-            orderForm.classList.add('hidden');
-            successPanel.classList.remove('hidden');
+            window.location.href = 'success.html';
         });
 
         const params = new URLSearchParams(window.location.search);
