@@ -128,17 +128,15 @@
             }
 
             const doSend = async () => {
-                const response = await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                const body = new URLSearchParams({
+                    data: JSON.stringify(payload)
                 });
-                const text = await response.text();
-                console.log('Webhook response:', text);
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                return text;
+                await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body
+                });
             };
 
             try {
