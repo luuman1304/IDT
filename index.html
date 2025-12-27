@@ -41,7 +41,7 @@
                 <a href="#blog" class="nav-link">Blog</a>
                 <a href="#contact" class="nav-link">Liên hệ</a>
             </div>
-            <a href="#booking-form" class="gradient-orange text-white px-6 py-2 rounded-full text-xs font-bold shadow-md shadow-orange-200">ĐẶT NGAY</a>
+            <a href="#checkout" class="gradient-orange text-white px-6 py-2 rounded-full text-xs font-bold shadow-md shadow-orange-200">ĐẶT NGAY</a>
         </div>
     </nav>
 
@@ -107,7 +107,7 @@
                         <li>✅ Trải nghiệm cách Lo Trưa chuẩn bị bữa trưa</li>
                         <li>✅ Không cần cam kết</li>
                     </ul>
-                    <a href="#booking-form" class="block text-center py-3 rounded-xl border-2 border-slate-800 font-bold hover:bg-slate-800 hover:text-white transition">👉 Ăn thử 1 ngày</a>
+                    <button type="button" data-package="1" class="package-cta block w-full text-center py-3 rounded-xl border-2 border-slate-800 font-bold hover:bg-slate-800 hover:text-white transition">👉 Ăn thử 1 ngày</button>
                 </div>
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl border-4 border-orange-500 relative transform hover:scale-105 transition">
                     <div class="absolute -top-5 right-8 bg-amber-500 text-white px-4 py-1 rounded-full text-xs font-bold animate-bounce">⭐ Phổ biến nhất</div>
@@ -128,7 +128,7 @@
                         <li>✅ Không phải đặt lại từng bữa</li>
                         <li>✅ Tiết kiệm hơn so với đặt lẻ</li>
                     </ul>
-                    <a href="#booking-form" class="block text-center py-3 rounded-xl font-bold text-white gradient-orange shadow-lg shadow-orange-200 hover:scale-105 transition-transform">👉 Lo trọn bữa trưa 1 tuần</a>
+                    <button type="button" data-package="7" class="package-cta block w-full text-center py-3 rounded-xl font-bold text-white gradient-orange shadow-lg shadow-orange-200 hover:scale-105 transition-transform">👉 Lo trọn bữa trưa 1 tuần</button>
                 </div>
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-200 relative">
                     <div class="absolute -top-5 right-8 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold">💰 Tiết kiệm nhất</div>
@@ -149,7 +149,7 @@
                         <li>✅ Giá tốt nhất theo suất</li>
                         <li>✅ Phù hợp người ăn trưa đều đặn</li>
                     </ul>
-                    <a href="#booking-form" class="block text-center py-3 rounded-xl border-2 border-slate-800 font-bold hover:bg-slate-800 hover:text-white transition">👉 Lo xong bữa trưa 2 tuần</a>
+                    <button type="button" data-package="14" class="package-cta block w-full text-center py-3 rounded-xl border-2 border-slate-800 font-bold hover:bg-slate-800 hover:text-white transition">👉 Lo xong bữa trưa 2 tuần</button>
                 </div>
             </div>
         </div>
@@ -343,21 +343,84 @@
                     </div>
                 </div>
 
-                <div id="booking-form" class="bg-white p-8 rounded-[2rem] shadow-lg">
+                <div id="checkout" class="bg-white p-8 rounded-[2rem] shadow-lg">
                     <h3 class="text-xl font-bold mb-6 text-center">ĐẶT CƠM TRƯA</h3>
-                    <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-4">
-                        <input type="text" name="name" placeholder="Họ và Tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                        <input type="tel" name="phone" placeholder="Số điện thoại" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                        <div class="grid grid-cols-2 gap-4">
-                            <input type="date" id="date-from" name="from" class="date-field w-full p-4 rounded-xl bg-slate-50 text-[11px] sm:text-xs">
-                            <input type="date" id="date-to" name="to" class="date-field w-full p-4 rounded-xl bg-slate-50 text-[11px] sm:text-xs">
+                    <div class="grid grid-cols-3 gap-3 text-[11px] font-semibold text-slate-400 mb-6">
+                        <div id="step-indicator-1" class="rounded-full px-3 py-2 text-center bg-orange-50 text-orange-600">Bước 1: Gói</div>
+                        <div id="step-indicator-2" class="rounded-full px-3 py-2 text-center bg-slate-100">Bước 2: Giao hàng</div>
+                        <div id="step-indicator-3" class="rounded-full px-3 py-2 text-center bg-slate-100">Bước 3: Xác nhận</div>
+                    </div>
+                    <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-6">
+                        <div data-step="1" class="space-y-4">
+                            <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4">
+                                <p class="text-xs font-bold text-orange-500 uppercase mb-2">Gói đã chọn</p>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p id="selected-package-name" class="text-lg font-bold text-slate-800">Combo 7 ngày</p>
+                                        <p id="selected-package-note" class="text-sm text-slate-500">Lo trọn bữa trưa 1 tuần</p>
+                                    </div>
+                                    <span id="selected-package-days" class="text-xl font-black text-orange-500">7 ngày</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-sm font-semibold text-slate-700">Thời gian áp dụng</label>
+                                <div class="grid grid-cols-2 gap-4 mt-2">
+                                    <div>
+                                        <p class="text-[11px] font-semibold text-slate-400 mb-1">From date</p>
+                                        <input type="date" id="date-from" name="from" class="date-field w-full p-4 rounded-xl bg-slate-50 text-[11px] sm:text-xs">
+                                    </div>
+                                    <div>
+                                        <p class="text-[11px] font-semibold text-slate-400 mb-1">To date</p>
+                                        <input type="date" id="date-to" name="to" readonly class="date-field w-full p-4 rounded-xl bg-slate-100 text-[11px] sm:text-xs cursor-not-allowed">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between rounded-xl border border-slate-200 p-4">
+                                <div>
+                                    <p class="text-sm font-semibold text-slate-700">Bao gồm Thứ 7 & Chủ nhật?</p>
+                                    <p class="text-xs text-slate-400">Nếu tắt, chỉ tính các ngày Thứ 2–Thứ 6.</p>
+                                </div>
+                                <label class="relative inline-flex cursor-pointer items-center">
+                                    <input id="include-weekend" type="checkbox" class="sr-only peer" checked>
+                                    <div class="h-6 w-11 rounded-full bg-slate-200 peer-checked:bg-orange-500 transition"></div>
+                                    <div class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition peer-checked:translate-x-5"></div>
+                                </label>
+                            </div>
+                            <p id="weekend-message" class="text-xs text-orange-500 hidden"></p>
                         </div>
-                        <div class="p-4 bg-orange-50 rounded-xl">
-                            <p class="text-[10px] font-bold text-gray-400 mb-2 uppercase">Ngày bạn muốn ăn CHAY</p>
-                            <p id="vegetarian-hint" class="text-[10px] text-gray-400 mb-3">Chọn từ ngày đến ngày (tối đa 14 ngày) để hiện danh sách.</p>
-                            <div id="vegetarian-days" class="flex flex-wrap gap-2"></div>
+
+                        <div data-step="2" class="space-y-4 hidden">
+                            <div class="grid grid-cols-1 gap-4">
+                                <input type="text" name="delivery_address" placeholder="Địa chỉ giao (công ty/nhà)" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <input type="text" name="delivery_district" placeholder="Khu vực/Quận" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                    <input type="text" name="delivery_ward" placeholder="Phường" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                </div>
+                                <textarea name="delivery_note" rows="3" placeholder="Ghi chú giao hàng (tòa nhà, sảnh, giờ nhận, gọi trước…)" class="w-full p-4 rounded-xl bg-slate-50 border-none"></textarea>
+                            </div>
                         </div>
-                        <button class="w-full gradient-orange text-white py-4 rounded-xl font-bold">XÁC NHẬT ĐẶT</button>
+
+                        <div data-step="3" class="space-y-4 hidden">
+                            <div class="grid grid-cols-1 gap-4">
+                                <input type="text" name="customer_name" placeholder="Họ và tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <input type="tel" name="customer_phone" placeholder="Số điện thoại" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                    <input type="email" name="customer_email" placeholder="Email" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                </div>
+                            </div>
+                            <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4 space-y-2">
+                                <p class="text-xs font-bold text-orange-500 uppercase">Tóm tắt đơn</p>
+                                <p class="text-sm text-slate-600">Gói: <span id="summary-package" class="font-semibold text-slate-800">Combo 7 ngày</span></p>
+                                <p class="text-sm text-slate-600">Thời gian: <span id="summary-dates" class="font-semibold text-slate-800">--</span></p>
+                                <p class="text-sm text-slate-600">Bao gồm T7/CN: <span id="summary-weekend" class="font-semibold text-slate-800">Có</span></p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-3">
+                            <button type="button" id="step-prev" class="flex-1 border-2 border-slate-200 text-slate-500 py-3 rounded-xl font-bold hidden">← Quay lại</button>
+                            <button type="button" id="step-next" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold">Tiếp tục →</button>
+                            <button type="submit" id="step-submit" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold hidden">Thanh toán / Đặt hàng</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -553,14 +616,35 @@
 
         const dateFrom = document.getElementById('date-from');
         const dateTo = document.getElementById('date-to');
-        const vegetarianDays = document.getElementById('vegetarian-days');
-        const vegetarianHint = document.getElementById('vegetarian-hint');
-        const maxRangeDays = 14;
-        const dayLabels = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+        const includeWeekendToggle = document.getElementById('include-weekend');
+        const weekendMessage = document.getElementById('weekend-message');
+        const selectedPackageName = document.getElementById('selected-package-name');
+        const selectedPackageNote = document.getElementById('selected-package-note');
+        const selectedPackageDays = document.getElementById('selected-package-days');
+        const summaryPackage = document.getElementById('summary-package');
+        const summaryDates = document.getElementById('summary-dates');
+        const summaryWeekend = document.getElementById('summary-weekend');
+        const stepPrev = document.getElementById('step-prev');
+        const stepNext = document.getElementById('step-next');
+        const stepSubmit = document.getElementById('step-submit');
+        const stepIndicators = [
+            document.getElementById('step-indicator-1'),
+            document.getElementById('step-indicator-2'),
+            document.getElementById('step-indicator-3')
+        ];
+        const stepPanels = Array.from(document.querySelectorAll('[data-step]'));
+        const packageCtas = document.querySelectorAll('.package-cta');
+        const packageMap = {
+            1: { name: 'Combo 1 ngày', note: 'Ăn thử 1 ngày', days: 1 },
+            7: { name: 'Combo 7 ngày', note: 'Lo trọn bữa trưa 1 tuần', days: 7 },
+            14: { name: 'Combo 14 ngày', note: 'Lo xong bữa trưa 2 tuần', days: 14 }
+        };
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const tomorrow = addDays(today, 1);
         const tomorrowValue = tomorrow.toISOString().split('T')[0];
+        let selectedPackageDaysCount = 7;
+        let currentStep = 1;
 
         function parseDate(value) {
             if (!value) {
@@ -576,19 +660,70 @@
             return next;
         }
 
-        function formatDateLabel(date) {
-            const dayLabel = dayLabels[date.getDay()];
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            return `${dayLabel} ${day}/${month}`;
+        function isWeekend(date) {
+            const day = date.getDay();
+            return day === 0 || day === 6;
         }
 
-        function updateDateConstraints() {
+        function shiftToNextMonday(date) {
+            const shifted = new Date(date);
+            while (isWeekend(shifted)) {
+                shifted.setDate(shifted.getDate() + 1);
+            }
+            return shifted;
+        }
+
+        function calculateToDate(fromDate, includeWeekend, totalDays) {
+            if (includeWeekend) {
+                return addDays(fromDate, totalDays - 1);
+            }
+
+            let workdays = 0;
+            let cursor = new Date(fromDate);
+
+            while (workdays < totalDays) {
+                if (!isWeekend(cursor)) {
+                    workdays += 1;
+                }
+                if (workdays < totalDays) {
+                    cursor = addDays(cursor, 1);
+                }
+            }
+
+            return cursor;
+        }
+
+        function updatePackageDisplay(days) {
+            const pack = packageMap[days];
+            if (!pack) {
+                return;
+            }
+            selectedPackageDaysCount = days;
+            selectedPackageName.textContent = pack.name;
+            selectedPackageNote.textContent = pack.note;
+            selectedPackageDays.textContent = `${pack.days} ngày`;
+            summaryPackage.textContent = pack.name;
+        }
+
+        function updateSummaryDates() {
+            if (!dateFrom.value || !dateTo.value) {
+                summaryDates.textContent = '--';
+                return;
+            }
+            summaryDates.textContent = `${dateFrom.value} → ${dateTo.value}`;
+        }
+
+        function updateSummaryWeekend() {
+            summaryWeekend.textContent = includeWeekendToggle.checked ? 'Có' : 'Không';
+        }
+
+        function updateDateRange() {
             dateFrom.min = tomorrowValue;
+            weekendMessage.classList.add('hidden');
 
             if (!dateFrom.value) {
-                dateTo.min = tomorrowValue;
-                dateTo.removeAttribute('max');
+                dateTo.value = '';
+                updateSummaryDates();
                 return;
             }
 
@@ -598,83 +733,82 @@
             }
 
             if (fromDate < tomorrow) {
+                fromDate = tomorrow;
                 dateFrom.value = tomorrowValue;
-                fromDate = parseDate(dateFrom.value);
             }
 
-            const maxDate = addDays(fromDate, maxRangeDays - 1);
-            dateTo.min = dateFrom.value;
-            dateTo.max = maxDate.toISOString().split('T')[0];
+            if (!includeWeekendToggle.checked && isWeekend(fromDate)) {
+                const shifted = shiftToNextMonday(fromDate);
+                dateFrom.value = shifted.toISOString().split('T')[0];
+                fromDate = shifted;
+                weekendMessage.textContent = 'Gói này không áp dụng Thứ 7/CN. Lo Trưa sẽ bắt đầu từ Thứ 2 gần nhất.';
+                weekendMessage.classList.remove('hidden');
+            }
 
-            if (dateTo.value) {
-                const toDate = parseDate(dateTo.value);
-                if (toDate) {
-                    if (toDate < fromDate) {
-                        dateTo.value = dateFrom.value;
-                    } else if (toDate > maxDate) {
-                        dateTo.value = dateTo.max;
-                    }
+            const toDate = calculateToDate(fromDate, includeWeekendToggle.checked, selectedPackageDaysCount);
+            dateTo.value = toDate.toISOString().split('T')[0];
+            updateSummaryDates();
+        }
+
+        function updateStepView() {
+            stepPanels.forEach((panel) => {
+                panel.classList.toggle('hidden', Number(panel.dataset.step) !== currentStep);
+            });
+
+            stepIndicators.forEach((indicator, index) => {
+                if (index + 1 === currentStep) {
+                    indicator.classList.add('bg-orange-50', 'text-orange-600');
+                    indicator.classList.remove('bg-slate-100', 'text-slate-400');
+                } else {
+                    indicator.classList.remove('bg-orange-50', 'text-orange-600');
+                    indicator.classList.add('bg-slate-100', 'text-slate-400');
                 }
-            }
+            });
+
+            stepPrev.classList.toggle('hidden', currentStep === 1);
+            stepNext.classList.toggle('hidden', currentStep === 3);
+            stepSubmit.classList.toggle('hidden', currentStep !== 3);
         }
 
-        function updateVegetarianDays() {
-            vegetarianDays.innerHTML = '';
-
-            if (!dateFrom.value || !dateTo.value) {
-                vegetarianHint.textContent = 'Chọn từ ngày đến ngày (tối đa 14 ngày) để hiện danh sách.';
-                return;
-            }
-
-            const fromDate = parseDate(dateFrom.value);
-            const toDate = parseDate(dateTo.value);
-
-            if (!fromDate || !toDate || toDate < fromDate) {
-                vegetarianHint.textContent = 'Vui lòng chọn khoảng ngày hợp lệ.';
-                return;
-            }
-
-            const diffDays = Math.floor((toDate - fromDate) / (1000 * 60 * 60 * 24)) + 1;
-            if (diffDays > maxRangeDays) {
-                vegetarianHint.textContent = 'Khoảng ngày tối đa 14 ngày. Vui lòng chọn lại.';
-                return;
-            }
-
-            vegetarianHint.textContent = `Đã chọn ${diffDays} ngày. Tick ngày muốn ăn chay.`;
-
-            for (let i = 0; i < diffDays; i += 1) {
-                const currentDate = addDays(fromDate, i);
-                const label = formatDateLabel(currentDate);
-                const value = currentDate.toISOString().split('T')[0];
-                const wrapper = document.createElement('label');
-                wrapper.className = 'text-[10px] flex items-center gap-1 bg-white/70 px-2 py-1 rounded-lg border border-orange-100';
-
-                const input = document.createElement('input');
-                input.type = 'checkbox';
-                input.name = 'vegetarian_days[]';
-                input.value = value;
-                input.className = 'accent-orange-500';
-
-                wrapper.appendChild(input);
-                wrapper.appendChild(document.createTextNode(` ${label}`));
-                vegetarianDays.appendChild(wrapper);
-            }
-        }
-
-        dateFrom.addEventListener('change', () => {
-            updateDateConstraints();
-            updateVegetarianDays();
+        packageCtas.forEach((button) => {
+            button.addEventListener('click', () => {
+                const days = Number(button.dataset.package);
+                if (!Number.isNaN(days)) {
+                    updatePackageDisplay(days);
+                    updateDateRange();
+                }
+                currentStep = 1;
+                updateStepView();
+                document.getElementById('checkout').scrollIntoView({ behavior: 'smooth' });
+            });
         });
 
-        dateTo.addEventListener('change', () => {
-            updateDateConstraints();
-            updateVegetarianDays();
+        includeWeekendToggle.addEventListener('change', () => {
+            updateSummaryWeekend();
+            updateDateRange();
         });
 
+        dateFrom.addEventListener('change', updateDateRange);
+
+        stepNext.addEventListener('click', () => {
+            if (currentStep < 3) {
+                currentStep += 1;
+                updateStepView();
+            }
+        });
+
+        stepPrev.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep -= 1;
+                updateStepView();
+            }
+        });
+
+        updatePackageDisplay(selectedPackageDaysCount);
+        updateSummaryWeekend();
         dateFrom.min = tomorrowValue;
-        dateTo.min = tomorrowValue;
-        updateDateConstraints();
-        updateVegetarianDays();
+        updateDateRange();
+        updateStepView();
     </script>
 </body>
 </html>
