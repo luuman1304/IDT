@@ -435,7 +435,9 @@
             maxScroll: 0,
             timeOnPage: 0,
             last_step_reached: 'Bước 1: Gói & Sản phẩm',
-            referral_source: document.referrer || queryParams.get('utm_source') || ''
+            referral_source: document.referrer || queryParams.get('utm_source') || '',
+            device_type: getDeviceInfo(),
+            browser_info: getBrowserInfo()
         };
         const productInteractionMap = {};
         let orderSubmitClicked = false;
@@ -446,6 +448,36 @@
             2: 'Bước 2: Giao hàng',
             3: 'Bước 3: Xác nhận'
         };
+
+        function getDeviceInfo() {
+            const ua = navigator.userAgent || '';
+            const isTablet = /iPad|Tablet|Nexus 7|Nexus 9|SM-T|Tab|Kindle|Silk/i.test(ua);
+            if (isTablet) {
+                return 'Tablet';
+            }
+            const isMobile = /Mobi|Android|iPhone|iPod/i.test(ua);
+            return isMobile ? 'Mobile' : 'Desktop';
+        }
+
+        function getBrowserInfo() {
+            const ua = navigator.userAgent || '';
+            if (/Edg\//i.test(ua)) {
+                return 'Edge';
+            }
+            if (/OPR\//i.test(ua)) {
+                return 'Opera';
+            }
+            if (/Chrome\//i.test(ua)) {
+                return 'Chrome';
+            }
+            if (/Firefox\//i.test(ua)) {
+                return 'Firefox';
+            }
+            if (/Safari\//i.test(ua)) {
+                return 'Safari';
+            }
+            return 'Unknown';
+        }
 
         function refreshLastActivity() {
             localStorage.setItem(lastActivityKey, String(Date.now()));
