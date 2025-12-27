@@ -41,7 +41,7 @@
                 <a href="#blog" class="nav-link">Blog</a>
                 <a href="#contact" class="nav-link">Liên hệ</a>
             </div>
-            <a href="#checkout" class="gradient-orange text-white px-6 py-2 rounded-full text-xs font-bold shadow-md shadow-orange-200">ĐẶT NGAY</a>
+            <a href="order.html" class="gradient-orange text-white px-6 py-2 rounded-full text-xs font-bold shadow-md shadow-orange-200">ĐẶT NGAY</a>
         </div>
     </nav>
 
@@ -107,7 +107,7 @@
                         <li>✅ Trải nghiệm cách Lo Trưa chuẩn bị bữa trưa</li>
                         <li>✅ Không cần cam kết</li>
                     </ul>
-                    <button type="button" data-package="1" class="package-cta block w-full text-center py-3 rounded-xl border-2 border-slate-800 font-bold hover:bg-slate-800 hover:text-white transition">👉 Ăn thử 1 ngày</button>
+                    <a href="order.html?package=1" class="block w-full text-center py-3 rounded-xl border-2 border-slate-800 font-bold hover:bg-slate-800 hover:text-white transition">👉 Ăn thử 1 ngày</a>
                 </div>
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl border-4 border-orange-500 relative transform hover:scale-105 transition">
                     <div class="absolute -top-5 right-8 bg-amber-500 text-white px-4 py-1 rounded-full text-xs font-bold animate-bounce">⭐ Phổ biến nhất</div>
@@ -128,7 +128,7 @@
                         <li>✅ Không phải đặt lại từng bữa</li>
                         <li>✅ Tiết kiệm hơn so với đặt lẻ</li>
                     </ul>
-                    <button type="button" data-package="7" class="package-cta block w-full text-center py-3 rounded-xl font-bold text-white gradient-orange shadow-lg shadow-orange-200 hover:scale-105 transition-transform">👉 Lo trọn bữa trưa 1 tuần</button>
+                    <a href="order.html?package=7" class="block w-full text-center py-3 rounded-xl font-bold text-white gradient-orange shadow-lg shadow-orange-200 hover:scale-105 transition-transform">👉 Lo trọn bữa trưa 1 tuần</a>
                 </div>
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-200 relative">
                     <div class="absolute -top-5 right-8 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold">💰 Tiết kiệm nhất</div>
@@ -149,7 +149,7 @@
                         <li>✅ Giá tốt nhất theo suất</li>
                         <li>✅ Phù hợp người ăn trưa đều đặn</li>
                     </ul>
-                    <button type="button" data-package="14" class="package-cta block w-full text-center py-3 rounded-xl border-2 border-slate-800 font-bold hover:bg-slate-800 hover:text-white transition">👉 Lo xong bữa trưa 2 tuần</button>
+                    <a href="order.html?package=14" class="block w-full text-center py-3 rounded-xl border-2 border-slate-800 font-bold hover:bg-slate-800 hover:text-white transition">👉 Lo xong bữa trưa 2 tuần</a>
                 </div>
             </div>
         </div>
@@ -343,85 +343,14 @@
                     </div>
                 </div>
 
-                <div id="checkout" class="bg-white p-8 rounded-[2rem] shadow-lg">
-                    <h3 class="text-xl font-bold mb-6 text-center">ĐẶT CƠM TRƯA</h3>
-                    <div class="grid grid-cols-3 gap-3 text-[11px] font-semibold text-slate-400 mb-6">
-                        <div id="step-indicator-1" class="rounded-full px-3 py-2 text-center bg-orange-50 text-orange-600">Bước 1: Gói</div>
-                        <div id="step-indicator-2" class="rounded-full px-3 py-2 text-center bg-slate-100">Bước 2: Giao hàng</div>
-                        <div id="step-indicator-3" class="rounded-full px-3 py-2 text-center bg-slate-100">Bước 3: Xác nhận</div>
-                    </div>
-                    <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-6">
-                        <div data-step="1" class="space-y-4">
-                            <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4">
-                                <p class="text-xs font-bold text-orange-500 uppercase mb-2">Gói đã chọn</p>
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <p id="selected-package-name" class="text-lg font-bold text-slate-800">Combo 7 ngày</p>
-                                        <p id="selected-package-note" class="text-sm text-slate-500">Lo trọn bữa trưa 1 tuần</p>
-                                    </div>
-                                    <span id="selected-package-days" class="text-xl font-black text-orange-500">7 ngày</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-sm font-semibold text-slate-700">Thời gian áp dụng</label>
-                                <div class="grid grid-cols-2 gap-4 mt-2">
-                                    <div>
-                                        <p class="text-[11px] font-semibold text-slate-400 mb-1">From date</p>
-                                        <input type="date" id="date-from" name="from" class="date-field w-full p-4 rounded-xl bg-slate-50 text-[11px] sm:text-xs">
-                                    </div>
-                                    <div>
-                                        <p class="text-[11px] font-semibold text-slate-400 mb-1">To date</p>
-                                        <input type="date" id="date-to" name="to" readonly class="date-field w-full p-4 rounded-xl bg-slate-100 text-[11px] sm:text-xs cursor-not-allowed">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between rounded-xl border border-slate-200 p-4">
-                                <div>
-                                    <p class="text-sm font-semibold text-slate-700">Bao gồm Thứ 7 & Chủ nhật?</p>
-                                    <p class="text-xs text-slate-400">Nếu tắt, chỉ tính các ngày Thứ 2–Thứ 6.</p>
-                                </div>
-                                <label class="relative inline-flex cursor-pointer items-center">
-                                    <input id="include-weekend" type="checkbox" class="sr-only peer" checked>
-                                    <div class="h-6 w-11 rounded-full bg-slate-200 peer-checked:bg-orange-500 transition"></div>
-                                    <div class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition peer-checked:translate-x-5"></div>
-                                </label>
-                            </div>
-                            <p id="weekend-message" class="text-xs text-orange-500 hidden"></p>
-                        </div>
-
-                        <div data-step="2" class="space-y-4 hidden">
-                            <div class="grid grid-cols-1 gap-4">
-                                <input type="text" name="delivery_address" placeholder="Địa chỉ giao (công ty/nhà)" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <input type="text" name="delivery_district" placeholder="Khu vực/Quận" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                                    <input type="text" name="delivery_ward" placeholder="Phường" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                                </div>
-                                <textarea name="delivery_note" rows="3" placeholder="Ghi chú giao hàng (tòa nhà, sảnh, giờ nhận, gọi trước…)" class="w-full p-4 rounded-xl bg-slate-50 border-none"></textarea>
-                            </div>
-                        </div>
-
-                        <div data-step="3" class="space-y-4 hidden">
-                            <div class="grid grid-cols-1 gap-4">
-                                <input type="text" name="customer_name" placeholder="Họ và tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <input type="tel" name="customer_phone" placeholder="Số điện thoại" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                                    <input type="email" name="customer_email" placeholder="Email" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                                </div>
-                            </div>
-                            <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4 space-y-2">
-                                <p class="text-xs font-bold text-orange-500 uppercase">Tóm tắt đơn</p>
-                                <p class="text-sm text-slate-600">Gói: <span id="summary-package" class="font-semibold text-slate-800">Combo 7 ngày</span></p>
-                                <p class="text-sm text-slate-600">Thời gian: <span id="summary-dates" class="font-semibold text-slate-800">--</span></p>
-                                <p class="text-sm text-slate-600">Bao gồm T7/CN: <span id="summary-weekend" class="font-semibold text-slate-800">Có</span></p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between gap-3">
-                            <button type="button" id="step-prev" class="flex-1 border-2 border-slate-200 text-slate-500 py-3 rounded-xl font-bold hidden">← Quay lại</button>
-                            <button type="button" id="step-next" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold">Tiếp tục →</button>
-                            <button type="submit" id="step-submit" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold hidden">Thanh toán / Đặt hàng</button>
-                        </div>
-                    </form>
+                <div class="bg-white p-10 rounded-[2rem] shadow-lg border border-orange-100">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4">Đặt cơm trưa trong vài bước</h3>
+                    <p class="text-sm text-slate-500 mb-6">Chọn combo, thêm sản phẩm và nhập thông tin giao hàng trên trang đặt riêng.</p>
+                    <a href="order.html" class="gradient-orange text-white px-6 py-3 rounded-full text-sm font-bold shadow-md shadow-orange-200 inline-flex items-center gap-2">
+                        Bắt đầu đặt cơm
+                        <span>→</span>
+                    </a>
+                    <p class="text-xs text-slate-400 mt-4">Bạn có thể đổi gói và thêm món ngay tại bước 1.</p>
                 </div>
             </div>
         </div>
@@ -614,201 +543,6 @@
             }
         }
 
-        const dateFrom = document.getElementById('date-from');
-        const dateTo = document.getElementById('date-to');
-        const includeWeekendToggle = document.getElementById('include-weekend');
-        const weekendMessage = document.getElementById('weekend-message');
-        const selectedPackageName = document.getElementById('selected-package-name');
-        const selectedPackageNote = document.getElementById('selected-package-note');
-        const selectedPackageDays = document.getElementById('selected-package-days');
-        const summaryPackage = document.getElementById('summary-package');
-        const summaryDates = document.getElementById('summary-dates');
-        const summaryWeekend = document.getElementById('summary-weekend');
-        const stepPrev = document.getElementById('step-prev');
-        const stepNext = document.getElementById('step-next');
-        const stepSubmit = document.getElementById('step-submit');
-        const stepIndicators = [
-            document.getElementById('step-indicator-1'),
-            document.getElementById('step-indicator-2'),
-            document.getElementById('step-indicator-3')
-        ];
-        const stepPanels = Array.from(document.querySelectorAll('[data-step]'));
-        const packageCtas = document.querySelectorAll('.package-cta');
-        const packageMap = {
-            1: { name: 'Combo 1 ngày', note: 'Ăn thử 1 ngày', days: 1 },
-            7: { name: 'Combo 7 ngày', note: 'Lo trọn bữa trưa 1 tuần', days: 7 },
-            14: { name: 'Combo 14 ngày', note: 'Lo xong bữa trưa 2 tuần', days: 14 }
-        };
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const tomorrow = addDays(today, 1);
-        const tomorrowValue = tomorrow.toISOString().split('T')[0];
-        let selectedPackageDaysCount = 7;
-        let currentStep = 1;
-
-        function parseDate(value) {
-            if (!value) {
-                return null;
-            }
-            const date = new Date(`${value}T00:00:00`);
-            return Number.isNaN(date.getTime()) ? null : date;
-        }
-
-        function addDays(date, days) {
-            const next = new Date(date);
-            next.setDate(next.getDate() + days);
-            return next;
-        }
-
-        function isWeekend(date) {
-            const day = date.getDay();
-            return day === 0 || day === 6;
-        }
-
-        function shiftToNextMonday(date) {
-            const shifted = new Date(date);
-            while (isWeekend(shifted)) {
-                shifted.setDate(shifted.getDate() + 1);
-            }
-            return shifted;
-        }
-
-        function calculateToDate(fromDate, includeWeekend, totalDays) {
-            if (includeWeekend) {
-                return addDays(fromDate, totalDays - 1);
-            }
-
-            let workdays = 0;
-            let cursor = new Date(fromDate);
-
-            while (workdays < totalDays) {
-                if (!isWeekend(cursor)) {
-                    workdays += 1;
-                }
-                if (workdays < totalDays) {
-                    cursor = addDays(cursor, 1);
-                }
-            }
-
-            return cursor;
-        }
-
-        function updatePackageDisplay(days) {
-            const pack = packageMap[days];
-            if (!pack) {
-                return;
-            }
-            selectedPackageDaysCount = days;
-            selectedPackageName.textContent = pack.name;
-            selectedPackageNote.textContent = pack.note;
-            selectedPackageDays.textContent = `${pack.days} ngày`;
-            summaryPackage.textContent = pack.name;
-        }
-
-        function updateSummaryDates() {
-            if (!dateFrom.value || !dateTo.value) {
-                summaryDates.textContent = '--';
-                return;
-            }
-            summaryDates.textContent = `${dateFrom.value} → ${dateTo.value}`;
-        }
-
-        function updateSummaryWeekend() {
-            summaryWeekend.textContent = includeWeekendToggle.checked ? 'Có' : 'Không';
-        }
-
-        function updateDateRange() {
-            dateFrom.min = tomorrowValue;
-            weekendMessage.classList.add('hidden');
-
-            if (!dateFrom.value) {
-                dateTo.value = '';
-                updateSummaryDates();
-                return;
-            }
-
-            let fromDate = parseDate(dateFrom.value);
-            if (!fromDate) {
-                return;
-            }
-
-            if (fromDate < tomorrow) {
-                fromDate = tomorrow;
-                dateFrom.value = tomorrowValue;
-            }
-
-            if (!includeWeekendToggle.checked && isWeekend(fromDate)) {
-                const shifted = shiftToNextMonday(fromDate);
-                dateFrom.value = shifted.toISOString().split('T')[0];
-                fromDate = shifted;
-                weekendMessage.textContent = 'Gói này không áp dụng Thứ 7/CN. Lo Trưa sẽ bắt đầu từ Thứ 2 gần nhất.';
-                weekendMessage.classList.remove('hidden');
-            }
-
-            const toDate = calculateToDate(fromDate, includeWeekendToggle.checked, selectedPackageDaysCount);
-            dateTo.value = toDate.toISOString().split('T')[0];
-            updateSummaryDates();
-        }
-
-        function updateStepView() {
-            stepPanels.forEach((panel) => {
-                panel.classList.toggle('hidden', Number(panel.dataset.step) !== currentStep);
-            });
-
-            stepIndicators.forEach((indicator, index) => {
-                if (index + 1 === currentStep) {
-                    indicator.classList.add('bg-orange-50', 'text-orange-600');
-                    indicator.classList.remove('bg-slate-100', 'text-slate-400');
-                } else {
-                    indicator.classList.remove('bg-orange-50', 'text-orange-600');
-                    indicator.classList.add('bg-slate-100', 'text-slate-400');
-                }
-            });
-
-            stepPrev.classList.toggle('hidden', currentStep === 1);
-            stepNext.classList.toggle('hidden', currentStep === 3);
-            stepSubmit.classList.toggle('hidden', currentStep !== 3);
-        }
-
-        packageCtas.forEach((button) => {
-            button.addEventListener('click', () => {
-                const days = Number(button.dataset.package);
-                if (!Number.isNaN(days)) {
-                    updatePackageDisplay(days);
-                    updateDateRange();
-                }
-                currentStep = 1;
-                updateStepView();
-                document.getElementById('checkout').scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
-        includeWeekendToggle.addEventListener('change', () => {
-            updateSummaryWeekend();
-            updateDateRange();
-        });
-
-        dateFrom.addEventListener('change', updateDateRange);
-
-        stepNext.addEventListener('click', () => {
-            if (currentStep < 3) {
-                currentStep += 1;
-                updateStepView();
-            }
-        });
-
-        stepPrev.addEventListener('click', () => {
-            if (currentStep > 1) {
-                currentStep -= 1;
-                updateStepView();
-            }
-        });
-
-        updatePackageDisplay(selectedPackageDaysCount);
-        updateSummaryWeekend();
-        dateFrom.min = tomorrowValue;
-        updateDateRange();
-        updateStepView();
     </script>
 </body>
 </html>

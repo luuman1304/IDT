@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt cơm trưa - Lo Trưa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Lexend', sans-serif; scroll-behavior: smooth; }
+        .gradient-orange { background: linear-gradient(135deg, #ff8c00 0%, #ed8936 100%); }
+        .date-field {
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .package-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .package-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(15, 23, 42, 0.12);
+            border-color: rgba(249, 115, 22, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 shadow-sm border-b border-orange-100">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-black text-orange-600 tracking-tighter italic">LO TRƯA.</a>
+            <a href="index.html#pricing" class="text-xs font-bold uppercase tracking-wide text-slate-500 hover:text-orange-500 transition">Xem combo</a>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-extrabold mb-3">Đặt cơm trưa</h1>
+                <p class="text-sm text-slate-500">Chọn combo, thêm món và hoàn tất giao hàng trong vài bước.</p>
+            </div>
+
+            <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-orange-100">
+                <div class="grid grid-cols-3 gap-3 text-[11px] font-semibold text-slate-400 mb-8">
+                    <div id="step-indicator-1" class="rounded-full px-3 py-2 text-center bg-orange-50 text-orange-600">Bước 1: Gói & Sản phẩm</div>
+                    <div id="step-indicator-2" class="rounded-full px-3 py-2 text-center bg-slate-100">Bước 2: Giao hàng</div>
+                    <div id="step-indicator-3" class="rounded-full px-3 py-2 text-center bg-slate-100">Bước 3: Xác nhận</div>
+                </div>
+
+                <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-6">
+                    <div data-step="1" class="space-y-6">
+                        <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4">
+                            <p class="text-xs font-bold text-orange-500 uppercase mb-2">Gói đã chọn</p>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p id="selected-package-name" class="text-lg font-bold text-slate-800">Combo 7 ngày</p>
+                                    <p id="selected-package-note" class="text-sm text-slate-500">Lo trọn bữa trưa 1 tuần</p>
+                                </div>
+                                <div class="text-right">
+                                    <span id="selected-package-days" class="text-xl font-black text-orange-500">7 ngày</span>
+                                    <p id="selected-package-price" class="text-xs text-slate-500 mt-1">266.000đ / gói</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid lg:grid-cols-2 gap-6">
+                            <div class="rounded-2xl border border-slate-200 p-5 space-y-4">
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-800 uppercase">Dịch vụ: Chọn combo</h4>
+                                    <p class="text-xs text-slate-500">Bạn có thể thay đổi gói ngay tại bước 1.</p>
+                                </div>
+                                <div class="grid gap-3">
+                                    <label class="block">
+                                        <input type="radio" name="package" value="1" class="sr-only package-option">
+                                        <div class="package-card border border-slate-200 rounded-2xl p-4 cursor-pointer bg-white" data-package="1">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <p class="font-bold">Combo 1 ngày</p>
+                                                    <p class="text-xs text-slate-500">Ăn thử 1 ngày</p>
+                                                </div>
+                                                <span class="text-sm font-bold text-orange-500">42.000đ</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="block">
+                                        <input type="radio" name="package" value="7" class="sr-only package-option">
+                                        <div class="package-card border border-orange-200 rounded-2xl p-4 cursor-pointer bg-orange-50" data-package="7">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <p class="font-bold">Combo 7 ngày</p>
+                                                    <p class="text-xs text-slate-500">Lo trọn bữa trưa 1 tuần</p>
+                                                </div>
+                                                <span class="text-sm font-bold text-orange-500">266.000đ</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="block">
+                                        <input type="radio" name="package" value="14" class="sr-only package-option">
+                                        <div class="package-card border border-slate-200 rounded-2xl p-4 cursor-pointer bg-white" data-package="14">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <p class="font-bold">Combo 14 ngày</p>
+                                                    <p class="text-xs text-slate-500">Lo xong bữa trưa 2 tuần</p>
+                                                </div>
+                                                <span class="text-sm font-bold text-orange-500">504.000đ</span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="rounded-2xl border border-slate-200 p-5 space-y-4">
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-800 uppercase">Sản phẩm: Món thêm</h4>
+                                    <p class="text-xs text-slate-500">Chọn số lượng để tính thành tiền.</p>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 p-3" data-product data-name="Trứng luộc" data-price="18000">
+                                        <div>
+                                            <p class="font-semibold">Trứng luộc</p>
+                                            <p class="text-xs text-slate-500">18.000đ / phần</p>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <button type="button" class="h-8 w-8 rounded-full border border-slate-200 text-slate-500 font-bold" data-action="decrease">-</button>
+                                            <input type="text" class="w-10 text-center text-sm font-semibold text-slate-700 bg-transparent" value="0" readonly>
+                                            <button type="button" class="h-8 w-8 rounded-full border border-slate-200 text-slate-500 font-bold" data-action="increase">+</button>
+                                            <span class="min-w-[72px] text-right text-sm font-semibold text-slate-700" data-total>0đ</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 p-3" data-product data-name="Sữa đậu nành" data-price="15000">
+                                        <div>
+                                            <p class="font-semibold">Sữa đậu nành</p>
+                                            <p class="text-xs text-slate-500">15.000đ / chai</p>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <button type="button" class="h-8 w-8 rounded-full border border-slate-200 text-slate-500 font-bold" data-action="decrease">-</button>
+                                            <input type="text" class="w-10 text-center text-sm font-semibold text-slate-700 bg-transparent" value="0" readonly>
+                                            <button type="button" class="h-8 w-8 rounded-full border border-slate-200 text-slate-500 font-bold" data-action="increase">+</button>
+                                            <span class="min-w-[72px] text-right text-sm font-semibold text-slate-700" data-total>0đ</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 p-3" data-product data-name="Rau trộn thêm" data-price="22000">
+                                        <div>
+                                            <p class="font-semibold">Rau trộn thêm</p>
+                                            <p class="text-xs text-slate-500">22.000đ / phần</p>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <button type="button" class="h-8 w-8 rounded-full border border-slate-200 text-slate-500 font-bold" data-action="decrease">-</button>
+                                            <input type="text" class="w-10 text-center text-sm font-semibold text-slate-700 bg-transparent" value="0" readonly>
+                                            <button type="button" class="h-8 w-8 rounded-full border border-slate-200 text-slate-500 font-bold" data-action="increase">+</button>
+                                            <span class="min-w-[72px] text-right text-sm font-semibold text-slate-700" data-total>0đ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between text-sm font-bold text-slate-700 pt-2 border-t border-dashed border-slate-200">
+                                    <span>Tạm tính sản phẩm</span>
+                                    <span id="products-subtotal">0đ</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-sm font-semibold text-slate-700">Thời gian áp dụng</label>
+                                <div class="grid grid-cols-2 gap-4 mt-2">
+                                    <div>
+                                        <p class="text-[11px] font-semibold text-slate-400 mb-1">From date</p>
+                                        <input type="date" id="date-from" name="from" class="date-field w-full p-4 rounded-xl bg-slate-50 text-[11px] sm:text-xs">
+                                    </div>
+                                    <div>
+                                        <p class="text-[11px] font-semibold text-slate-400 mb-1">To date</p>
+                                        <input type="date" id="date-to" name="to" readonly class="date-field w-full p-4 rounded-xl bg-slate-100 text-[11px] sm:text-xs cursor-not-allowed">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between rounded-xl border border-slate-200 p-4">
+                                <div>
+                                    <p class="text-sm font-semibold text-slate-700">Bao gồm Thứ 7 & Chủ nhật?</p>
+                                    <p class="text-xs text-slate-400">Nếu tắt, chỉ tính các ngày Thứ 2–Thứ 6.</p>
+                                </div>
+                                <label class="relative inline-flex cursor-pointer items-center">
+                                    <input id="include-weekend" type="checkbox" class="sr-only peer" checked>
+                                    <div class="h-6 w-11 rounded-full bg-slate-200 peer-checked:bg-orange-500 transition"></div>
+                                    <div class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition peer-checked:translate-x-5"></div>
+                                </label>
+                            </div>
+                            <p id="weekend-message" class="text-xs text-orange-500 hidden"></p>
+                        </div>
+                    </div>
+
+                    <div data-step="2" class="space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-4">
+                            <input type="text" name="delivery_address" placeholder="Địa chỉ giao (công ty/nhà)" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <input type="text" name="delivery_district" placeholder="Khu vực/Quận" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                <input type="text" name="delivery_ward" placeholder="Phường" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                            </div>
+                            <textarea name="delivery_note" rows="3" placeholder="Ghi chú giao hàng (tòa nhà, sảnh, giờ nhận, gọi trước…)" class="w-full p-4 rounded-xl bg-slate-50 border-none"></textarea>
+                        </div>
+                    </div>
+
+                    <div data-step="3" class="space-y-4 hidden">
+                        <div class="grid grid-cols-1 gap-4">
+                            <input type="text" name="customer_name" placeholder="Họ và tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <input type="tel" name="customer_phone" placeholder="Số điện thoại" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                <input type="email" name="customer_email" placeholder="Email" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                            </div>
+                        </div>
+                        <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4 space-y-2">
+                            <p class="text-xs font-bold text-orange-500 uppercase">Tóm tắt đơn</p>
+                            <p class="text-sm text-slate-600">Gói: <span id="summary-package" class="font-semibold text-slate-800">Combo 7 ngày</span></p>
+                            <p class="text-sm text-slate-600">Thời gian: <span id="summary-dates" class="font-semibold text-slate-800">--</span></p>
+                            <p class="text-sm text-slate-600">Bao gồm T7/CN: <span id="summary-weekend" class="font-semibold text-slate-800">Có</span></p>
+                            <p class="text-sm text-slate-600">Sản phẩm thêm: <span id="summary-products" class="font-semibold text-slate-800">Không có</span></p>
+                            <p class="text-sm text-slate-600">Tạm tính sản phẩm: <span id="summary-products-total" class="font-semibold text-slate-800">0đ</span></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-3">
+                        <button type="button" id="step-prev" class="flex-1 border-2 border-slate-200 text-slate-500 py-3 rounded-xl font-bold hidden">← Quay lại</button>
+                        <button type="button" id="step-next" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold">Tiếp tục →</button>
+                        <button type="submit" id="step-submit" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold hidden">Thanh toán / Đặt hàng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const dateFrom = document.getElementById('date-from');
+        const dateTo = document.getElementById('date-to');
+        const includeWeekendToggle = document.getElementById('include-weekend');
+        const weekendMessage = document.getElementById('weekend-message');
+        const selectedPackageName = document.getElementById('selected-package-name');
+        const selectedPackageNote = document.getElementById('selected-package-note');
+        const selectedPackageDays = document.getElementById('selected-package-days');
+        const selectedPackagePrice = document.getElementById('selected-package-price');
+        const summaryPackage = document.getElementById('summary-package');
+        const summaryDates = document.getElementById('summary-dates');
+        const summaryWeekend = document.getElementById('summary-weekend');
+        const summaryProducts = document.getElementById('summary-products');
+        const summaryProductsTotal = document.getElementById('summary-products-total');
+        const productsSubtotal = document.getElementById('products-subtotal');
+        const stepPrev = document.getElementById('step-prev');
+        const stepNext = document.getElementById('step-next');
+        const stepSubmit = document.getElementById('step-submit');
+        const stepIndicators = [
+            document.getElementById('step-indicator-1'),
+            document.getElementById('step-indicator-2'),
+            document.getElementById('step-indicator-3')
+        ];
+        const stepPanels = Array.from(document.querySelectorAll('[data-step]'));
+        const packageOptions = Array.from(document.querySelectorAll('.package-option'));
+        const packageCards = Array.from(document.querySelectorAll('[data-package]'));
+        const productRows = Array.from(document.querySelectorAll('[data-product]'));
+        const packageMap = {
+            1: { name: 'Combo 1 ngày', note: 'Ăn thử 1 ngày', days: 1, price: 42000 },
+            7: { name: 'Combo 7 ngày', note: 'Lo trọn bữa trưa 1 tuần', days: 7, price: 266000 },
+            14: { name: 'Combo 14 ngày', note: 'Lo xong bữa trưa 2 tuần', days: 14, price: 504000 }
+        };
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = addDays(today, 1);
+        const tomorrowValue = tomorrow.toISOString().split('T')[0];
+        let selectedPackageDaysCount = 7;
+        let currentStep = 1;
+
+        function formatCurrency(value) {
+            return `${new Intl.NumberFormat('vi-VN').format(value)}đ`;
+        }
+
+        function parseDate(value) {
+            if (!value) {
+                return null;
+            }
+            const date = new Date(`${value}T00:00:00`);
+            return Number.isNaN(date.getTime()) ? null : date;
+        }
+
+        function addDays(date, days) {
+            const next = new Date(date);
+            next.setDate(next.getDate() + days);
+            return next;
+        }
+
+        function isWeekend(date) {
+            const day = date.getDay();
+            return day === 0 || day === 6;
+        }
+
+        function shiftToNextMonday(date) {
+            const shifted = new Date(date);
+            while (isWeekend(shifted)) {
+                shifted.setDate(shifted.getDate() + 1);
+            }
+            return shifted;
+        }
+
+        function calculateToDate(fromDate, includeWeekend, totalDays) {
+            if (includeWeekend) {
+                return addDays(fromDate, totalDays - 1);
+            }
+
+            let workdays = 0;
+            let cursor = new Date(fromDate);
+
+            while (workdays < totalDays) {
+                if (!isWeekend(cursor)) {
+                    workdays += 1;
+                }
+                if (workdays < totalDays) {
+                    cursor = addDays(cursor, 1);
+                }
+            }
+
+            return cursor;
+        }
+
+        function updatePackageDisplay(days) {
+            const pack = packageMap[days];
+            if (!pack) {
+                return;
+            }
+            selectedPackageDaysCount = days;
+            selectedPackageName.textContent = pack.name;
+            selectedPackageNote.textContent = pack.note;
+            selectedPackageDays.textContent = `${pack.days} ngày`;
+            selectedPackagePrice.textContent = `${formatCurrency(pack.price)} / gói`;
+            summaryPackage.textContent = pack.name;
+        }
+
+        function updateSummaryDates() {
+            if (!dateFrom.value || !dateTo.value) {
+                summaryDates.textContent = '--';
+                return;
+            }
+            summaryDates.textContent = `${dateFrom.value} → ${dateTo.value}`;
+        }
+
+        function updateSummaryWeekend() {
+            summaryWeekend.textContent = includeWeekendToggle.checked ? 'Có' : 'Không';
+        }
+
+        function updateDateRange() {
+            dateFrom.min = tomorrowValue;
+            weekendMessage.classList.add('hidden');
+
+            if (!dateFrom.value) {
+                dateTo.value = '';
+                updateSummaryDates();
+                return;
+            }
+
+            let fromDate = parseDate(dateFrom.value);
+            if (!fromDate) {
+                return;
+            }
+
+            if (fromDate < tomorrow) {
+                fromDate = tomorrow;
+                dateFrom.value = tomorrowValue;
+            }
+
+            if (!includeWeekendToggle.checked && isWeekend(fromDate)) {
+                const shifted = shiftToNextMonday(fromDate);
+                dateFrom.value = shifted.toISOString().split('T')[0];
+                fromDate = shifted;
+                weekendMessage.textContent = 'Gói này không áp dụng Thứ 7/CN. Lo Trưa sẽ bắt đầu từ Thứ 2 gần nhất.';
+                weekendMessage.classList.remove('hidden');
+            }
+
+            const toDate = calculateToDate(fromDate, includeWeekendToggle.checked, selectedPackageDaysCount);
+            dateTo.value = toDate.toISOString().split('T')[0];
+            updateSummaryDates();
+        }
+
+        function updateStepView() {
+            stepPanels.forEach((panel) => {
+                panel.classList.toggle('hidden', Number(panel.dataset.step) !== currentStep);
+            });
+
+            stepIndicators.forEach((indicator, index) => {
+                if (index + 1 === currentStep) {
+                    indicator.classList.add('bg-orange-50', 'text-orange-600');
+                    indicator.classList.remove('bg-slate-100', 'text-slate-400');
+                } else {
+                    indicator.classList.remove('bg-orange-50', 'text-orange-600');
+                    indicator.classList.add('bg-slate-100', 'text-slate-400');
+                }
+            });
+
+            stepPrev.classList.toggle('hidden', currentStep === 1);
+            stepNext.classList.toggle('hidden', currentStep === 3);
+            stepSubmit.classList.toggle('hidden', currentStep !== 3);
+        }
+
+        function setSelectedPackage(days) {
+            packageOptions.forEach((option) => {
+                option.checked = Number(option.value) === days;
+            });
+            packageCards.forEach((card) => {
+                const isActive = Number(card.dataset.package) === days;
+                card.classList.toggle('border-orange-400', isActive);
+                card.classList.toggle('bg-orange-50', isActive);
+                card.classList.toggle('border-slate-200', !isActive);
+                card.classList.toggle('bg-white', !isActive);
+            });
+        }
+
+        function updateProductRow(row, quantity) {
+            const price = Number(row.dataset.price);
+            const total = quantity * price;
+            row.querySelector('input').value = quantity;
+            row.querySelector('[data-total]').textContent = formatCurrency(total);
+        }
+
+        function updateProductsSummary() {
+            let subtotal = 0;
+            const selections = [];
+            productRows.forEach((row) => {
+                const qty = Number(row.querySelector('input').value);
+                const price = Number(row.dataset.price);
+                const name = row.dataset.name;
+                if (qty > 0) {
+                    selections.push(`${qty}× ${name}`);
+                }
+                subtotal += qty * price;
+            });
+            productsSubtotal.textContent = formatCurrency(subtotal);
+            summaryProducts.textContent = selections.length ? selections.join(', ') : 'Không có';
+            summaryProductsTotal.textContent = formatCurrency(subtotal);
+        }
+
+        packageOptions.forEach((option) => {
+            option.addEventListener('change', () => {
+                const days = Number(option.value);
+                updatePackageDisplay(days);
+                setSelectedPackage(days);
+                updateDateRange();
+            });
+        });
+
+        packageCards.forEach((card) => {
+            card.addEventListener('click', () => {
+                const days = Number(card.dataset.package);
+                updatePackageDisplay(days);
+                setSelectedPackage(days);
+                updateDateRange();
+            });
+        });
+
+        productRows.forEach((row) => {
+            row.querySelectorAll('button[data-action]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const input = row.querySelector('input');
+                    let qty = Number(input.value);
+                    if (button.dataset.action === 'increase') {
+                        qty += 1;
+                    } else if (qty > 0) {
+                        qty -= 1;
+                    }
+                    updateProductRow(row, qty);
+                    updateProductsSummary();
+                });
+            });
+        });
+
+        includeWeekendToggle.addEventListener('change', () => {
+            updateSummaryWeekend();
+            updateDateRange();
+        });
+
+        dateFrom.addEventListener('change', updateDateRange);
+
+        stepNext.addEventListener('click', () => {
+            if (currentStep < 3) {
+                currentStep += 1;
+                updateStepView();
+            }
+        });
+
+        stepPrev.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep -= 1;
+                updateStepView();
+            }
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        const preselect = Number(params.get('package'));
+        if (!Number.isNaN(preselect) && packageMap[preselect]) {
+            selectedPackageDaysCount = preselect;
+        }
+
+        setSelectedPackage(selectedPackageDaysCount);
+        updatePackageDisplay(selectedPackageDaysCount);
+        updateSummaryWeekend();
+        dateFrom.min = tomorrowValue;
+        updateDateRange();
+        updateStepView();
+        productRows.forEach((row) => updateProductRow(row, 0));
+        updateProductsSummary();
+    </script>
+</body>
+</html>
