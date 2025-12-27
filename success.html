@@ -38,6 +38,7 @@
     <script>
         const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxC7JMZHPM-Ul3f03wnzZ-ovrZNtyst2iFANTdSME2RzlG71rDWecrKv3rq6jzavF-uGw/exec';
         const ORDER_PAYLOAD_KEY = 'lotrua_order_payload';
+        const ORDER_ID_KEY = 'order_id';
 
         function getUTM() {
             const params = new URLSearchParams(window.location.search);
@@ -60,6 +61,31 @@
             return parsed.toISOString();
         }
 
+        function generateOrderId() {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const rand = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+            return `LT-${yyyy}${mm}${dd}-${rand}`;
+        }
+
+        function resolveOrderId(storedPayload) {
+            const sessionOrderId = sessionStorage.getItem(ORDER_ID_KEY);
+            if (sessionOrderId) {
+                return sessionOrderId;
+            }
+            if (storedPayload && storedPayload.order_id) {
+                return storedPayload.order_id;
+            }
+            const params = new URLSearchParams(window.location.search);
+            const queryOrderId = params.get('order_id');
+            if (queryOrderId) {
+                return queryOrderId;
+            }
+            return generateOrderId();
+        }
+
         function buildPayload() {
             const storedPayload = sessionStorage.getItem(ORDER_PAYLOAD_KEY);
             if (storedPayload) {
@@ -67,6 +93,7 @@
                     const parsed = JSON.parse(storedPayload);
                     return {
                         ...parsed,
+                        order_id: resolveOrderId(parsed),
                         order_time: normalizeOrderTime(parsed.order_time),
                         tracking: getUTM()
                     };
@@ -75,7 +102,7 @@
                 }
             }
 
-            const orderId = window.order_id || '';
+            const orderId = resolveOrderId();
 
             return {
                 order_id: orderId,
@@ -126,14 +153,7 @@
         }
 
         function initOnSuccessPageLoad() {
-            const rawPayload = sessionStorage.getItem(ORDER_PAYLOAD_KEY);
             const payload = buildPayload();
-            const status = window.order_status || payload.status || payload.order_status || 'SUCCESS';
-            const isSuccessPage = Boolean(rawPayload) || window.location.href.includes('success');
-
-            if (!isSuccessPage || status !== 'SUCCESS') {
-                return;
-            }
 
             sendToSheet(payload).catch((error) => {
                 console.error('Unable to send order payload', error);
