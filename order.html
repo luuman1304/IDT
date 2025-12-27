@@ -46,8 +46,9 @@
                     <div id="step-indicator-2" class="rounded-full px-3 py-2 text-center bg-slate-100">Bước 2: Giao hàng</div>
                     <div id="step-indicator-3" class="rounded-full px-3 py-2 text-center bg-slate-100">Bước 3: Xác nhận</div>
                 </div>
+                <p id="form-error" class="hidden text-xs font-semibold text-orange-600"></p>
 
-                <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-6">
+                <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-6" novalidate>
                     <div data-step="1" class="space-y-6">
                         <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4">
                             <p class="text-xs font-bold text-orange-500 uppercase mb-2">Gói đã chọn</p>
@@ -385,6 +386,7 @@
         const stepNext = document.getElementById('step-next');
         const stepSubmit = document.getElementById('step-submit');
         const orderForm = document.querySelector('form');
+        const formError = document.getElementById('form-error');
         const stepIndicators = [
             document.getElementById('step-indicator-1'),
             document.getElementById('step-indicator-2'),
@@ -572,11 +574,48 @@
             if (field.type === 'checkbox') {
                 return field.checked;
             }
+            if (field.type === 'radio') {
+                const group = orderForm.querySelectorAll(`[name="${CSS.escape(field.name)}"]`);
+                return Array.from(group).some((option) => option.checked);
+            }
             return Boolean(field.value && field.value.trim());
         }
 
         function getMissingRequiredFields() {
-            return requiredFields.filter((field) => !isFieldFilled(field));
+            const missing = [];
+            const handledRadioNames = new Set();
+            requiredFields.forEach((field) => {
+                if (field.type === 'radio') {
+                    if (handledRadioNames.has(field.name)) {
+                        return;
+                    }
+                    handledRadioNames.add(field.name);
+                    if (!isFieldFilled(field)) {
+                        missing.push(field);
+                    }
+                    return;
+                }
+                if (!isFieldFilled(field)) {
+                    missing.push(field);
+                }
+            });
+            return missing;
+        }
+
+        function showFormError(message) {
+            if (!formError) {
+                return;
+            }
+            formError.textContent = message;
+            formError.classList.remove('hidden');
+        }
+
+        function clearFormError() {
+            if (!formError) {
+                return;
+            }
+            formError.textContent = '';
+            formError.classList.add('hidden');
         }
 
         function updateSubmitState() {
@@ -588,6 +627,9 @@
             stepSubmit.classList.toggle('cursor-not-allowed', !canSubmit);
             if (warning) {
                 warning.classList.toggle('hidden', canSubmit || currentStep !== 3);
+            }
+            if (canSubmit) {
+                clearFormError();
             }
         }
 
@@ -835,19 +877,22 @@
         }
 
         orderForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
             const missingFields = getMissingRequiredFields();
             if (missingFields.length > 0) {
-                event.preventDefault();
                 const firstMissing = missingFields[0];
                 const stepPanel = firstMissing.closest('[data-step]');
                 if (stepPanel) {
                     currentStep = Number(stepPanel.dataset.step);
                     updateStepView();
+                }
+                showFormError('Vui lòng hoàn tất các trường bắt buộc trước khi gửi đơn.');
+                firstMissing.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (typeof firstMissing.focus === 'function') {
                     firstMissing.focus();
                 }
                 return;
             }
-            event.preventDefault();
             orderSubmitClicked = true;
             setSubmitLoading(true);
             const payload = buildOrderPayload();
@@ -857,6 +902,7 @@
                     method: 'POST',
                     mode: 'no-cors',
                     redirect: 'follow',
+                    keepalive: true,
                     headers: {
                         'Content-Type': 'text/plain;charset=utf-8'
                     },
