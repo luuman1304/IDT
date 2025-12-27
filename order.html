@@ -190,6 +190,11 @@
 
                     <div data-step="2" class="space-y-4 hidden">
                         <div class="grid grid-cols-1 gap-4">
+                            <input type="text" name="customer_name" placeholder="Họ và tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <input type="tel" name="customer_phone" placeholder="Số điện thoại" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                                <input type="email" name="customer_email" placeholder="Email" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
+                            </div>
                             <input type="text" name="delivery_address" placeholder="Địa chỉ giao (công ty/nhà)" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <input type="text" name="delivery_district" placeholder="Khu vực/Quận" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
@@ -200,29 +205,56 @@
                     </div>
 
                     <div data-step="3" class="space-y-4 hidden">
-                        <div class="grid grid-cols-1 gap-4">
-                            <input type="text" name="customer_name" placeholder="Họ và tên" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <input type="tel" name="customer_phone" placeholder="Số điện thoại" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                                <input type="email" name="customer_email" placeholder="Email" required class="w-full p-4 rounded-xl bg-slate-50 border-none">
-                            </div>
-                        </div>
-                        <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4 space-y-2">
+                        <div class="rounded-2xl border border-orange-100 bg-orange-50 p-4 space-y-4">
                             <p class="text-xs font-bold text-orange-500 uppercase">Tóm tắt đơn</p>
-                            <p class="text-sm text-slate-600">Gói: <span id="summary-package" class="font-semibold text-slate-800">Combo 7 ngày</span></p>
-                            <p class="text-sm text-slate-600">Thời gian: <span id="summary-dates" class="font-semibold text-slate-800">--</span></p>
-                            <p class="text-sm text-slate-600">Bao gồm T7/CN: <span id="summary-weekend" class="font-semibold text-slate-800">Có</span></p>
-                            <p class="text-sm text-slate-600">Sản phẩm thêm: <span id="summary-products" class="font-semibold text-slate-800">Không có</span></p>
-                            <p class="text-sm text-slate-600">Tạm tính sản phẩm: <span id="summary-products-total" class="font-semibold text-slate-800">0đ</span></p>
+                            <div class="space-y-2">
+                                <p class="text-sm text-slate-600">Thời gian: <span id="summary-dates" class="font-semibold text-slate-800">--</span></p>
+                                <p class="text-sm text-slate-600">Bao gồm T7/CN: <span id="summary-weekend" class="font-semibold text-slate-800">Có</span></p>
+                            </div>
+                            <div class="overflow-hidden rounded-xl border border-orange-100 bg-white">
+                                <div class="grid grid-cols-[1.4fr_0.6fr_0.8fr_0.8fr] gap-2 bg-orange-100/60 px-3 py-2 text-[11px] font-semibold text-orange-600">
+                                    <span>Mục</span>
+                                    <span class="text-center">SL</span>
+                                    <span class="text-right">Đơn giá</span>
+                                    <span class="text-right">Thành tiền</span>
+                                </div>
+                                <div id="summary-items" class="divide-y divide-orange-50 text-sm text-slate-700"></div>
+                            </div>
+                            <div class="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+                                <label class="text-sm font-semibold text-slate-700">Mã giảm giá</label>
+                                <input type="text" id="discount-code" name="discount_code" placeholder="Nhập mã giảm giá" class="w-full rounded-xl border border-orange-100 bg-white px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
+                            </div>
+                            <div class="space-y-2 text-sm text-slate-700">
+                                <div class="flex items-center justify-between">
+                                    <span>Tiền combo</span>
+                                    <span id="summary-package-total" class="font-semibold">0đ</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Tổng tiền sản phẩm</span>
+                                    <span id="summary-products-total" class="font-semibold">0đ</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Giảm giá</span>
+                                    <span id="summary-discount" class="font-semibold text-orange-600">0đ</span>
+                                </div>
+                                <div class="flex items-center justify-between border-t border-dashed border-orange-100 pt-2 text-base font-bold text-slate-800">
+                                    <span>Tổng tiền đơn</span>
+                                    <span id="summary-total">0đ</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between gap-3">
                         <button type="button" id="step-prev" class="flex-1 border-2 border-slate-200 text-slate-500 py-3 rounded-xl font-bold hidden">← Quay lại</button>
                         <button type="button" id="step-next" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold">Tiếp tục →</button>
-                        <button type="submit" id="step-submit" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold hidden">Thanh toán / Đặt hàng</button>
+                        <button type="submit" id="step-submit" class="flex-1 gradient-orange text-white py-3 rounded-xl font-bold hidden">Đặt hàng</button>
                     </div>
                 </form>
+                <div id="success-panel" class="hidden text-center py-10">
+                    <h2 class="text-2xl font-extrabold text-orange-600 mb-3">Đặt hàng thành công</h2>
+                    <p class="text-sm text-slate-600">Lo Trưa sẽ liên hệ lại bạn trong vòng 12 giờ.</p>
+                </div>
             </div>
         </div>
     </main>
@@ -236,15 +268,20 @@
         const selectedPackageNote = document.getElementById('selected-package-note');
         const selectedPackageDays = document.getElementById('selected-package-days');
         const selectedPackagePrice = document.getElementById('selected-package-price');
-        const summaryPackage = document.getElementById('summary-package');
         const summaryDates = document.getElementById('summary-dates');
         const summaryWeekend = document.getElementById('summary-weekend');
-        const summaryProducts = document.getElementById('summary-products');
+        const summaryItems = document.getElementById('summary-items');
+        const summaryPackageTotal = document.getElementById('summary-package-total');
         const summaryProductsTotal = document.getElementById('summary-products-total');
+        const summaryDiscount = document.getElementById('summary-discount');
+        const summaryTotal = document.getElementById('summary-total');
+        const discountCode = document.getElementById('discount-code');
         const productsSubtotal = document.getElementById('products-subtotal');
         const stepPrev = document.getElementById('step-prev');
         const stepNext = document.getElementById('step-next');
         const stepSubmit = document.getElementById('step-submit');
+        const successPanel = document.getElementById('success-panel');
+        const orderForm = document.querySelector('form');
         const stepIndicators = [
             document.getElementById('step-indicator-1'),
             document.getElementById('step-indicator-2'),
@@ -258,6 +295,9 @@
             1: { name: 'Combo 1 ngày', note: 'Ăn thử 1 ngày', days: 1, price: 42000 },
             7: { name: 'Combo 7 ngày', note: 'Lo trọn bữa trưa 1 tuần', days: 7, price: 266000 },
             14: { name: 'Combo 14 ngày', note: 'Lo xong bữa trưa 2 tuần', days: 14, price: 504000 }
+        };
+        const discountCodes = {
+            LOTRUA10: 0.1
         };
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -327,7 +367,7 @@
             selectedPackageNote.textContent = pack.note;
             selectedPackageDays.textContent = `${pack.days} ngày`;
             selectedPackagePrice.textContent = `${formatCurrency(pack.price)} / gói`;
-            summaryPackage.textContent = pack.name;
+            updateProductsSummary();
         }
 
         function updateSummaryDates() {
@@ -415,21 +455,65 @@
             row.querySelector('[data-total]').textContent = formatCurrency(total);
         }
 
-        function updateProductsSummary() {
-            let subtotal = 0;
-            const selections = [];
+        function renderSummaryItems() {
+            const pack = packageMap[selectedPackageDaysCount];
+            if (!pack) {
+                return { productsTotal: 0 };
+            }
+            summaryItems.innerHTML = `
+                <div class="grid grid-cols-[1.4fr_0.6fr_0.8fr_0.8fr] gap-2 px-3 py-2">
+                    <span class="font-semibold text-slate-800">${pack.name}</span>
+                    <span class="text-center">1</span>
+                    <span class="text-right">${formatCurrency(pack.price)}</span>
+                    <span class="text-right font-semibold">${formatCurrency(pack.price)}</span>
+                </div>
+            `;
+            let productsTotal = 0;
             productRows.forEach((row) => {
                 const qty = Number(row.querySelector('input').value);
                 const price = Number(row.dataset.price);
                 const name = row.dataset.name;
                 if (qty > 0) {
-                    selections.push(`${qty}× ${name}`);
+                    const lineTotal = qty * price;
+                    productsTotal += lineTotal;
+                    summaryItems.insertAdjacentHTML(
+                        'beforeend',
+                        `<div class="grid grid-cols-[1.4fr_0.6fr_0.8fr_0.8fr] gap-2 px-3 py-2">
+                            <span>${name}</span>
+                            <span class="text-center">${qty}</span>
+                            <span class="text-right">${formatCurrency(price)}</span>
+                            <span class="text-right font-semibold">${formatCurrency(lineTotal)}</span>
+                        </div>`
+                    );
                 }
+            });
+            return { productsTotal };
+        }
+
+        function getDiscountValue(subtotal) {
+            const code = discountCode.value.trim().toUpperCase();
+            if (!code || !discountCodes[code]) {
+                return 0;
+            }
+            return Math.round(subtotal * discountCodes[code]);
+        }
+
+        function updateProductsSummary() {
+            let subtotal = 0;
+            productRows.forEach((row) => {
+                const qty = Number(row.querySelector('input').value);
+                const price = Number(row.dataset.price);
                 subtotal += qty * price;
             });
             productsSubtotal.textContent = formatCurrency(subtotal);
-            summaryProducts.textContent = selections.length ? selections.join(', ') : 'Không có';
+            const pack = packageMap[selectedPackageDaysCount];
+            const packageTotal = pack ? pack.price : 0;
+            const discountValue = getDiscountValue(packageTotal + subtotal);
+            summaryPackageTotal.textContent = formatCurrency(packageTotal);
             summaryProductsTotal.textContent = formatCurrency(subtotal);
+            summaryDiscount.textContent = formatCurrency(discountValue);
+            summaryTotal.textContent = formatCurrency(packageTotal + subtotal - discountValue);
+            renderSummaryItems();
         }
 
         packageOptions.forEach((option) => {
@@ -472,6 +556,7 @@
         });
 
         dateFrom.addEventListener('change', updateDateRange);
+        discountCode.addEventListener('input', updateProductsSummary);
 
         stepNext.addEventListener('click', () => {
             if (currentStep < 3) {
@@ -485,6 +570,12 @@
                 currentStep -= 1;
                 updateStepView();
             }
+        });
+
+        orderForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            orderForm.classList.add('hidden');
+            successPanel.classList.remove('hidden');
         });
 
         const params = new URLSearchParams(window.location.search);
