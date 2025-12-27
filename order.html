@@ -481,7 +481,7 @@
 
         function renderSummaryItems() {
             const pack = packageMap[selectedPackageDaysCount];
-            if (!pack) {
+            if (!pack || !summaryItems) {
                 return { productsTotal: 0 };
             }
             summaryItems.innerHTML = `
@@ -699,21 +699,18 @@
             const payload = buildOrderPayload();
             sessionStorage.setItem('lotrua_order_payload', JSON.stringify(payload));
             try {
-                const response = await fetch('https://script.google.com/macros/library/d/1F9j7YGUMiL1hD3G3zPz6QvlUQdbxv5X3zYouYIQUs7m5bILoJZ3QRYfF/4', {
+                await fetch('https://script.google.com/macros/s/AKfycbxC7JMZHPM-Ul3f03wnzZ-ovrZNtyst2iFANTdSME2RzlG71rDWecrKv3rq6jzavF-uGw/exec', {
                     method: 'POST',
-                    mode: 'cors',
+                    mode: 'no-cors',
                     redirect: 'follow',
                     headers: {
                         'Content-Type': 'text/plain;charset=utf-8'
                     },
                     body: JSON.stringify(payload)
                 });
-                const result = await response.json();
-                if (result.status === 'success') {
+                setTimeout(() => {
                     window.location.href = 'success.html';
-                } else {
-                    throw new Error(result.message);
-                }
+                }, 1200);
             } catch (error) {
                 setSubmitLoading(false);
                 alert(error.message || 'Không thể gửi đơn hàng. Vui lòng thử lại.');
