@@ -283,6 +283,7 @@
             document.getElementById('step-indicator-3')
         ];
         const stepPanels = Array.from(document.querySelectorAll('[data-step]'));
+        const requiredFields = Array.from(orderForm.querySelectorAll('[required]'));
         const packageOptions = Array.from(document.querySelectorAll('.package-option'));
         const packageCards = Array.from(document.querySelectorAll('[data-package]'));
         const productRows = Array.from(document.querySelectorAll('[data-product]'));
@@ -412,7 +413,11 @@
 
         function updateStepView() {
             stepPanels.forEach((panel) => {
-                panel.classList.toggle('hidden', Number(panel.dataset.step) !== currentStep);
+                const isActive = Number(panel.dataset.step) === currentStep;
+                panel.classList.toggle('hidden', !isActive);
+                panel.querySelectorAll('[data-required="true"]').forEach((field) => {
+                    field.required = isActive;
+                });
             });
 
             stepIndicators.forEach((indicator, index) => {
@@ -578,6 +583,9 @@
             selectedPackageDaysCount = preselect;
         }
 
+        requiredFields.forEach((field) => {
+            field.dataset.required = 'true';
+        });
         setSelectedPackage(selectedPackageDaysCount);
         updatePackageDisplay(selectedPackageDaysCount);
         updateSummaryWeekend();
