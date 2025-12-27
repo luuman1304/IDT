@@ -414,13 +414,20 @@
         let selectedPackageDaysCount = 7;
         let currentStep = 1;
         const sessionKey = 'idt_session_id';
-        const existingSession = sessionStorage.getItem(sessionKey);
-        const sessionId = existingSession || `SSID-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
-        if (!existingSession) {
-            sessionStorage.setItem(sessionKey, sessionId);
+        const lastActivityKey = 'idt_last_activity';
+        const sessionTimeoutMs = 30 * 60 * 1000;
+        const now = Date.now();
+        const lastActivity = Number(localStorage.getItem(lastActivityKey));
+        const isSessionExpired = !lastActivity || now - lastActivity > sessionTimeoutMs;
+        let sessionId = localStorage.getItem(sessionKey);
+        if (!sessionId || isSessionExpired) {
+            sessionId = `SSID-${now}-${Math.floor(Math.random() * 1000000)}`;
+            localStorage.setItem(sessionKey, sessionId);
         }
+        localStorage.setItem(lastActivityKey, String(now));
         const behaviorStartTime = Date.now();
         const user_behavior = {
+            event_name: 'LANDING',
             session_id: sessionId,
             key_actions: [],
             product_interactions: [],
@@ -431,11 +438,17 @@
         };
         const productInteractionMap = {};
         let orderSubmitClicked = false;
+        let visitorExitSent = false;
+        const productQuantityTimers = {};
         const stepLabels = {
             1: 'Bước 1: Gói & Sản phẩm',
             2: 'Bước 2: Giao hàng',
             3: 'Bước 3: Xác nhận'
         };
+
+        function refreshLastActivity() {
+            localStorage.setItem(lastActivityKey, String(Date.now()));
+        }
 
         function updateTimeOnPage() {
             user_behavior.timeOnPage = Math.floor((Date.now() - behaviorStartTime) / 1000);
@@ -462,7 +475,7 @@
             });
         }
 
-        function trackProductInteraction(row) {
+        function trackProductInteraction(row, qty) {
             const name = row.dataset.name;
             if (!name) {
                 return;
@@ -470,13 +483,12 @@
             if (!productInteractionMap[name]) {
                 productInteractionMap[name] = {
                     name,
-                    total_clicks: 0,
                     final_qty: 0
                 };
             }
-            productInteractionMap[name].total_clicks += 1;
-            productInteractionMap[name].final_qty = Number(row.querySelector('input').value);
+            productInteractionMap[name].final_qty = qty;
             user_behavior.product_interactions = Object.values(productInteractionMap);
+            trackKeyAction('addon_qty_change', `${name}: ${qty}`);
         }
 
         function formatCurrency(value) {
@@ -678,7 +690,7 @@
         }
 
         function updateSubmitState() {
-            const canSubmit = orderForm.checkValidity() && getMissingRequiredFields().length === 0;
+            const canSubmit = getMissingRequiredFields().length === 0;
             const warning = document.getElementById('submit-warning');
             stepSubmit.disabled = !canSubmit;
             stepSubmit.classList.toggle('opacity-50', !canSubmit);
@@ -800,9 +812,10 @@
             const packageTotal = pack ? pack.price : 0;
             const finalTotal = packageTotal + addonsTotal;
             updateTimeOnPage();
+            user_behavior.event_name = 'ORDER_SUCCESS';
 
             return {
-                event_name: 'CONVERSION_ORDER',
+                event_name: 'ORDER_SUCCESS',
                 order_id: orderId,
                 order_time: formatOrderDateTime(new Date()),
                 package: {
@@ -872,7 +885,12 @@
                     }
                     updateProductRow(row, qty);
                     updateProductsSummary();
-                    trackProductInteraction(row);
+                    if (productQuantityTimers[row.dataset.name]) {
+                        clearTimeout(productQuantityTimers[row.dataset.name]);
+                    }
+                    productQuantityTimers[row.dataset.name] = setTimeout(() => {
+                        trackProductInteraction(row, qty);
+                    }, 600);
                 });
             });
         });
@@ -887,25 +905,28 @@
 
         stepNext.addEventListener('click', () => {
             if (currentStep < 3) {
+                const previousStep = currentStep;
                 currentStep += 1;
                 updateStepView();
-                trackKeyAction('step_change', stepLabels[currentStep]);
+                trackKeyAction('step_change', `${stepLabels[previousStep]} → ${stepLabels[currentStep]}`);
             }
         });
 
         stepPrev.addEventListener('click', () => {
             if (currentStep > 1) {
+                const previousStep = currentStep;
                 currentStep -= 1;
                 updateStepView();
-                trackKeyAction('step_change', stepLabels[currentStep]);
+                trackKeyAction('step_change', `${stepLabels[previousStep]} → ${stepLabels[currentStep]}`);
             }
         });
 
         stepIndicators.forEach((indicator, index) => {
             indicator.addEventListener('click', () => {
+                const previousStep = currentStep;
                 currentStep = index + 1;
                 updateStepView();
-                trackKeyAction('step_change', stepLabels[currentStep]);
+                trackKeyAction('step_change', `${stepLabels[previousStep]} → ${stepLabels[currentStep]}`);
             });
         });
 
@@ -917,6 +938,10 @@
         const submitButtonLabel = stepSubmit.textContent;
 
         window.addEventListener('scroll', updateMaxScroll, { passive: true });
+        window.addEventListener('scroll', refreshLastActivity, { passive: true });
+        window.addEventListener('click', refreshLastActivity, { passive: true });
+        window.addEventListener('input', refreshLastActivity, { passive: true });
+        window.addEventListener('keydown', refreshLastActivity, { passive: true });
         const timeOnPageTimer = setInterval(updateTimeOnPage, 1000);
 
         stepSubmit.addEventListener('click', () => {
@@ -933,17 +958,15 @@
 
         orderForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            if (!orderForm.checkValidity()) {
-                const firstInvalid = getFirstInvalidField();
-                if (!firstInvalid) {
-                    return;
-                }
+            const firstInvalid = getFirstInvalidField();
+            if (firstInvalid) {
                 const stepPanel = firstInvalid.closest('[data-step]');
                 if (stepPanel) {
                     currentStep = Number(stepPanel.dataset.step);
                     updateStepView();
                 }
                 showFormError('Vui lòng hoàn tất các trường bắt buộc trước khi gửi đơn.');
+                trackKeyAction('validation_error', firstInvalid.name || firstInvalid.placeholder || 'unknown');
                 firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 if (typeof firstInvalid.focus === 'function') {
                     firstInvalid.focus();
@@ -964,6 +987,7 @@
                     updateStepView();
                 }
                 showFormError('Vui lòng hoàn tất các trường bắt buộc trước khi gửi đơn.');
+                trackKeyAction('validation_error', firstMissing.name || firstMissing.placeholder || 'unknown');
                 firstMissing.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 if (typeof firstMissing.focus === 'function') {
                     firstMissing.focus();
@@ -971,6 +995,7 @@
                 return;
             }
             orderSubmitClicked = true;
+            visitorExitSent = true;
             updateLastStepReached(3);
             setSubmitLoading(true);
             const payload = buildOrderPayload();
@@ -995,13 +1020,15 @@
             }
         });
 
-        window.addEventListener('beforeunload', () => {
-            if (orderSubmitClicked) {
+        function sendVisitorExit() {
+            if (orderSubmitClicked || visitorExitSent) {
                 return;
             }
+            visitorExitSent = true;
             updateTimeOnPage();
             updateMaxScroll();
             updateLastStepReached();
+            user_behavior.event_name = 'VISITOR_EXIT';
             const payload = JSON.stringify({
                 event_name: 'VISITOR_EXIT',
                 user_behavior
@@ -1020,7 +1047,14 @@
                 body: payload,
                 keepalive: true
             }).catch(() => {});
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                sendVisitorExit();
+            }
         });
+        window.addEventListener('beforeunload', sendVisitorExit);
 
         const preselect = Number(queryParams.get('package'));
         if (!Number.isNaN(preselect) && packageMap[preselect]) {
