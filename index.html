@@ -14,10 +14,18 @@
             transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
         }
         .menu-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 18px 30px rgba(15, 23, 42, 0.12);
-            border-color: rgba(249, 115, 22, 0.4);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 24px 40px rgba(15, 23, 42, 0.2);
+            border-color: rgba(249, 115, 22, 0.45);
             background-color: #fff7ed;
+        }
+        .menu-image {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 10px 18px rgba(15, 23, 42, 0.15);
+            border: 3px solid #fff;
         }
         .date-field {
             min-width: 0;
@@ -25,8 +33,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        /* Fix lỗi hiển thị menu */
-        #menu-chay { display: none; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -160,66 +166,66 @@
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold mb-4 italic uppercase">Thực Đơn Tuần Này</h2>
                 <p class="text-gray-400 text-sm mb-8">29/12/2025 - 05/01/2026</p>
-                <div class="inline-flex bg-slate-100 p-1.5 rounded-2xl">
-                    <button onclick="toggleMenu('man')" id="tab-man" class="px-8 py-3 rounded-xl font-bold transition-all bg-white shadow-md text-orange-600">THỰC ĐƠN MẶN</button>
-                    <button onclick="toggleMenu('chay')" id="tab-chay" class="px-8 py-3 rounded-xl font-bold transition-all text-gray-500 hover:text-orange-600">THỰC ĐƠN CHAY</button>
+                <div class="inline-flex bg-slate-100 px-6 py-3 rounded-2xl font-bold text-orange-600 shadow-md">
+                    THỰC ĐƠN MẶN
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div id="menu-man" class="md:contents">
-                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4">
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&auto=format&fit=crop&q=80" alt="Thịt kho trứng" class="menu-image">
+                    <div class="text-left">
                         <span class="text-xs font-bold text-orange-400">T2</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Thịt kho trứng</h4>
+                        <h4 class="font-bold text-base mt-1 italic">Thịt kho trứng</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh bí, rau muống</p>
                     </div>
-                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=200&auto=format&fit=crop&q=80" alt="Phở bò" class="menu-image">
+                    <div class="text-left">
                         <span class="text-xs font-bold text-orange-400">T3</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Phở Bò Gốc</h4>
+                        <h4 class="font-bold text-base mt-1 italic">Phở bò Hà Nội</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Quẩy giòn, rau thơm</p>
                     </div>
-                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?w=200&auto=format&fit=crop&q=80" alt="Gà kho sả ớt" class="menu-image">
+                    <div class="text-left">
                         <span class="text-xs font-bold text-orange-400">T4</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Gà kho sả ớt</h4>
+                        <h4 class="font-bold text-base mt-1 italic">Gà kho sả ớt</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh cải, dưa leo</p>
                     </div>
-                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=200&auto=format&fit=crop&q=80" alt="Bún chả Hà Nội" class="menu-image">
+                    <div class="text-left">
                         <span class="text-xs font-bold text-orange-400">T5</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Bún Chả HN</h4>
+                        <h4 class="font-bold text-base mt-1 italic">Bún chả Hà Nội</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Nước mắm, nem rán</p>
                     </div>
-                    <div class="menu-card p-6 bg-orange-50 rounded-3xl border border-orange-100 text-center">
+                </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=200&auto=format&fit=crop&q=80" alt="Bò xào tỏi" class="menu-image">
+                    <div class="text-left">
                         <span class="text-xs font-bold text-orange-400">T6</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Bò xào tỏi</h4>
+                        <h4 class="font-bold text-base mt-1 italic">Bò xào tỏi</h4>
                         <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh chua, trứng rán</p>
                     </div>
                 </div>
-
-                <div id="menu-chay" class="md:contents">
-                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
-                        <span class="text-xs font-bold text-green-500">T2</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Nấm kho tộ</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh kiểm, rau luộc</p>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=200&auto=format&fit=crop&q=80" alt="Cơm tấm sườn" class="menu-image">
+                    <div class="text-left">
+                        <span class="text-xs font-bold text-orange-400">T7</span>
+                        <h4 class="font-bold text-base mt-1 italic">Cơm tấm sườn</h4>
+                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Bì chả, dưa góp</p>
                     </div>
-                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
-                        <span class="text-xs font-bold text-green-500">T3</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Phở Chay</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Nấm hương, đậu hũ</p>
-                    </div>
-                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
-                        <span class="text-xs font-bold text-green-500">T4</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Bún Huế Chay</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Sả ớt, chả chay</p>
-                    </div>
-                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
-                        <span class="text-xs font-bold text-green-500">T5</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Đậu hũ sốt cà</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Canh bí đỏ, su su</p>
-                    </div>
-                    <div class="menu-card p-6 bg-green-50 rounded-3xl border border-green-100 text-center">
-                        <span class="text-xs font-bold text-green-500">T6</span>
-                        <h4 class="font-bold text-lg mt-2 italic">Miến trộn chay</h4>
-                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Mè rang, canh rong biển</p>
+                </div>
+                <div class="menu-card p-5 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1458642849426-cfb724f15ef7?w=200&auto=format&fit=crop&q=80" alt="Bún bò Huế" class="menu-image">
+                    <div class="text-left">
+                        <span class="text-xs font-bold text-orange-400">CN</span>
+                        <h4 class="font-bold text-base mt-1 italic">Bún bò Huế</h4>
+                        <p class="text-xs text-gray-500 italic mt-1 font-medium">Chả cua, rau sống</p>
                     </div>
                 </div>
             </div>
@@ -515,33 +521,6 @@
 
         renderTestimonial(testimonialIndex);
         resetTestimonialTimer();
-
-        function toggleMenu(type) {
-            const menuMan = document.getElementById('menu-man');
-            const menuChay = document.getElementById('menu-chay');
-            const tabMan = document.getElementById('tab-man');
-            const tabChay = document.getElementById('tab-chay');
-
-            if (type === 'man') {
-                menuMan.style.display = 'contents';
-                menuChay.style.display = 'none';
-                
-                tabMan.classList.add('bg-white', 'shadow-md', 'text-orange-600');
-                tabMan.classList.remove('text-gray-500');
-                
-                tabChay.classList.remove('bg-white', 'shadow-md', 'text-orange-600');
-                tabChay.classList.add('text-gray-500');
-            } else {
-                menuMan.style.display = 'none';
-                menuChay.style.display = 'contents';
-                
-                tabChay.classList.add('bg-white', 'shadow-md', 'text-orange-600');
-                tabChay.classList.remove('text-gray-500');
-                
-                tabMan.classList.remove('bg-white', 'shadow-md', 'text-orange-600');
-                tabMan.classList.add('text-gray-500');
-            }
-        }
 
     </script>
 </body>
